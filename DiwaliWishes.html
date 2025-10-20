@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Diwali Wishes</title>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: radial-gradient(circle at center, #0b132b, #000);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  position: relative;
+}
+
+/* Main Greeting */
+h1 {
+  font-size: 3em;
+  color: #ffdf6c;
+  text-shadow: 0 0 20px #ff6f00, 0 0 40px #ffab40;
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 10px #ff6f00; }
+  to { text-shadow: 0 0 30px #ffab40, 0 0 50px #ffdf6c; }
+}
+
+/* Name */
+#name {
+  font-size: 2.5em;
+  color: #ffab40;
+  text-shadow: 0 0 15px #ff6f00, 0 0 30px #ffdf6c;
+  font-family: 'Dancing Script', cursive;
+  animation: glowName 2s ease-in-out infinite alternate, floatName 3s ease-in-out infinite alternate;
+  margin-top: 10px;
+  z-index: 1;
+}
+
+@keyframes glowName {
+  from { text-shadow: 0 0 10px #ff6f00; }
+  to { text-shadow: 0 0 25px #ffdf6c, 0 0 50px #ffab40; }
+}
+
+@keyframes floatName {
+  from { transform: translateY(0); }
+  to { transform: translateY(-8px); }
+}
+
+/* Message */
+.message {
+  margin-top: 20px;
+  font-size: 2em;
+  color: #ffd580;
+  text-shadow: 0 0 10px #ff6f00, 0 0 20px #ffdf6c;
+  font-family: 'Great Vibes', cursive;
+  animation: floatMessage 3s ease-in-out infinite alternate;
+  z-index: 1;
+}
+
+@keyframes floatMessage {
+  from { transform: translateY(0); }
+  to { transform: translateY(-10px); }
+}
+
+/* Canvas */
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+/* Rotating Diyas */
+.rotating-diya {
+  position: absolute;
+  width: 40px;
+  height: 30px;
+  background: #8b4513;
+  border-radius: 0 0 50% 50%;
+}
+.rotating-diya .flame {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 8px;
+  height: 16px;
+  background: radial-gradient(circle at 50% 20%, #ffcc00, #ff6600 70%);
+  border-radius: 50%;
+  animation: flicker 0.2s infinite alternate;
+}
+@keyframes flicker {
+  from { transform: translateX(-50%) scale(1); opacity: 0.9; }
+  to { transform: translateX(-50%) scale(1.1); opacity: 1; }
+}
+
+/* Floating flowers */
+.flower {
+  position: absolute;
+  top: -50px;
+  width: 20px;
+  height: 20px;
+  background: radial-gradient(circle, #ff69b4, #ff1493);
+  border-radius: 50%;
+  opacity: 0.8;
+}
+
+/* Music button */
+.audio-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 10px 15px;
+  background: #ffab40;
+  color: #000;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 10;
+}
+</style>
+</head>
+<body>
+
+<canvas id="fireworks"></canvas>
+
+<h1>🪔 Happy Diwali!</h1>
+<div id="name"></div>
+<div class="message">Wishing you joy, light, and prosperity!</div>
+
+<!-- Music -->
+<audio id="bg-music" loop>
+<source src="https://raw.githubusercontent.com/akhilkotti/GeneralDocs/cbad13d78c7e24cde8abfe870374c7018c0b2c20/diwalisong3.mp3" type="audio/mpeg">
+</audio>
+<button class="audio-btn" id="toggle-music">Play Music</button>
+
+
+<script>
+// Personalized greeting
+const params = new URLSearchParams(window.location.search);
+const name = params.get("name") || "My Friend";
+document.getElementById("name").textContent = name + "!";
+
+// Music play on first interaction
+const music = document.getElementById('bg-music');
+let musicStarted = false;
+function startMusic() {
+  if (!musicStarted) {
+    music.play().catch(()=>console.log("User interaction required to play music"));
+    musicStarted = true;
+  }
+}
+document.body.addEventListener('click', startMusic, { once: true });
+
+// Mute/Play button
+const btn = document.getElementById('toggle-music');
+btn.addEventListener('click', () => {
+  if(music.paused) { music.play(); btn.textContent = "Mute Music"; }
+  else { music.pause(); btn.textContent = "Play Music"; }
+});
+
+// Fireworks
+const canvas = document.getElementById('fireworks');
+const ctx = canvas.getContext('2d');
+let w = window.innerWidth, h = window.innerHeight;
+canvas.width = w; canvas.height = h;
+window.addEventListener('resize', () => { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; });
+
+const fireworks = [];
+class Firework {
+  constructor(x,y,color){
+    this.x=x; this.y=y; this.color=color;
+    this.particles=[];
+    for(let i=0;i<60;i++){
+      const angle=(Math.PI*2*i)/60;
+      const speed=Math.random()*4+1;
+      this.particles.push({x:this.x, y:this.y, vx:Math.cos(angle)*speed, vy:Math.sin(angle)*speed, alpha:1});
+    }
+  }
+  update(){ this.particles.forEach(p=>{ p.x+=p.vx; p.y+=p.vy; p.vy+=0.02; p.alpha-=0.02; }); }
+  draw(){ this.particles.forEach(p=>{ ctx.fillStyle=`rgba(${this.color},${p.alpha})`; ctx.beginPath(); ctx.arc(p.x,p.y,2,0,Math.PI*2); ctx.fill(); }); }
+}
+
+function loop(){
+  ctx.fillStyle="rgba(0,0,0,0.2)";
+  ctx.fillRect(0,0,w,h);
+  fireworks.forEach((fw,i)=>{ fw.update(); fw.draw(); if(fw.particles[0].alpha<=0) fireworks.splice(i,1); });
+  requestAnimationFrame(loop);
+}
+function createFirework(){
+  const x=Math.random()*w;
+  const y=Math.random()*h*0.5;
+  const color=`${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)}`;
+  fireworks.push(new Firework(x,y,color));
+}
+setInterval(createFirework,500);
+loop();
+
+// Floating flowers
+function createFlower(){
+  const flower = document.createElement('div');
+  flower.className = 'flower';
+  flower.style.left = Math.random() * w + 'px';
+  document.body.appendChild(flower);
+  let top = -50;
+  const speed = Math.random() * 2 + 1;
+  function fall(){ top += speed; flower.style.top = top+'px'; if(top < h) requestAnimationFrame(fall); else flower.remove(); }
+  fall();
+}
+setInterval(createFlower, 400);
+
+const numDiyas = 12;
+const diyas = [];
+for(let i=0;i<numDiyas;i++){
+  const diya = document.createElement('div');
+  diya.className = 'rotating-diya';
+  
+  // Create flame
+  const flame = document.createElement('div');
+  flame.className = 'flame';
+  diya.appendChild(flame);
+
+  // Create tiny sparks
+  for(let s=0; s<3; s++){
+    const spark = document.createElement('div');
+    spark.className = 'spark';
+    flame.appendChild(spark);
+  }
+
+  document.body.appendChild(diya);
+  diyas.push(diya);
+}
+
+// Add spark styles
+const style = document.createElement('style');
+style.innerHTML = `
+.rotating-diya .spark {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: yellow;
+  border-radius: 50%;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: sparkFlicker 0.5s infinite alternate;
+}
+@keyframes sparkFlicker {
+  from { transform: translateX(-50%) translateY(0) scale(1); opacity: 1; }
+  to { transform: translateX(-50%) translateY(-5px) scale(0.5); opacity: 0.5; }
+}
+`;
+document.head.appendChild(style);
+
+// Elliptical rotation, slower speed
+let angle = 0;
+function rotateDiyas(){
+  const h1 = document.querySelector('h1');
+  const nameEl = document.getElementById('name');
+  const msg = document.querySelector('.message');
+
+  const top = Math.min(h1.offsetTop, nameEl.offsetTop, msg.offsetTop);
+  const bottom = Math.max(h1.offsetTop + h1.offsetHeight,
+                          nameEl.offsetTop + nameEl.offsetHeight,
+                          msg.offsetTop + msg.offsetHeight);
+  const left = Math.min(h1.offsetLeft, nameEl.offsetLeft, msg.offsetLeft);
+  const right = Math.max(h1.offsetLeft + h1.offsetWidth,
+                         nameEl.offsetLeft + nameEl.offsetWidth,
+                         msg.offsetLeft + msg.offsetWidth);
+
+  const centerX = (left + right) / 2;
+  const centerY = (top + bottom) / 2;
+
+  const radiusX = (right - left)/2 + 80;
+  const radiusY = (bottom - top)/2 + 80;
+
+  angle += 0.006; // slower rotation
+
+  diyas.forEach((diya,i)=>{
+    const theta = angle + (i * (2*Math.PI/numDiyas));
+    const x = centerX + radiusX*Math.cos(theta) - 20;
+    const y = centerY + radiusY*Math.sin(theta) - 15;
+    diya.style.left = x+'px';
+    diya.style.top = y+'px';
+  });
+
+  requestAnimationFrame(rotateDiyas);
+}
+rotateDiyas();
+
+window.addEventListener('resize', rotateDiyas);
+
+// Personalized name
+document.getElementById("name").textContent = name + "!";
+</script>
+</body>
+</html>
