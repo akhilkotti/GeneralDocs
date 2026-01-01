@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy New Year 2026</title>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: radial-gradient(circle at center, #020024, #000);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  position: relative;
+}
+
+/* Main Greeting */
+h1 {
+  font-size: 3.2em;
+  color: #ffd700;
+  text-shadow: 0 0 20px #ff9800, 0 0 40px #ffc107;
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 12px #ff9800; }
+  to { text-shadow: 0 0 35px #ffc107, 0 0 60px #ffd700; }
+}
+
+/* Name */
+#name {
+  font-size: 2.6em;
+  color: #ffcc80;
+  text-shadow: 0 0 15px #ff9800, 0 0 30px #ffd700;
+  font-family: 'Dancing Script', cursive;
+  animation: glowName 2s ease-in-out infinite alternate, floatName 3s ease-in-out infinite alternate;
+  margin-top: 10px;
+  z-index: 1;
+}
+
+@keyframes glowName {
+  from { text-shadow: 0 0 10px #ff9800; }
+  to { text-shadow: 0 0 30px #ffd700, 0 0 55px #ffc107; }
+}
+
+@keyframes floatName {
+  from { transform: translateY(0); }
+  to { transform: translateY(-10px); }
+}
+
+/* Message */
+.message {
+  margin-top: 20px;
+  font-size: 2.1em;
+  color: #fff3cd;
+  text-shadow: 0 0 10px #ff9800, 0 0 20px #ffd700;
+  font-family: 'Great Vibes', cursive;
+  animation: floatMessage 3s ease-in-out infinite alternate;
+  z-index: 1;
+}
+
+@keyframes floatMessage {
+  from { transform: translateY(0); }
+  to { transform: translateY(-12px); }
+}
+
+/* Canvas */
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+/* Floating stars */
+.star {
+  position: absolute;
+  top: -50px;
+  width: 6px;
+  height: 6px;
+  background: radial-gradient(circle, #ffffff, #ffd700);
+  border-radius: 50%;
+  opacity: 0.8;
+}
+
+/* Music button */
+.audio-btn {
+  position: fixed;
+  top: 20px;
+  padding: 10px 15px;
+  background: #ffd700;
+  color: #000;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+<canvas id="fireworks"></canvas>
+
+<h1>🎆 Happy New Year 2026 🎆</h1>
+<div id="name"></div>
+<div class="message">
+  May 2026 bring you success, happiness, good health, and endless opportunities ✨
+</div>
+
+<!-- Music -->
+<audio id="bg-music" loop>
+  <source src="https://akhilkotti.github.io/GeneralDocs/HappyNewYear.mp3" type="audio/mpeg">
+</audio>
+<button class="audio-btn" id="toggle-music">Happy New Year 2026, Play</button>
+
+<script>
+// Personalized greeting
+const params = new URLSearchParams(window.location.search);
+const name = params.get("name") || "My Friend";
+document.getElementById("name").textContent = name + "!";
+
+// Music play on first interaction
+const music = document.getElementById('bg-music');
+let musicStarted = false;
+function startMusic() {
+  if (!musicStarted) {
+    music.play().catch(()=>console.log("User interaction required"));
+    musicStarted = true;
+  }
+}
+document.body.addEventListener('click', startMusic, { once: true });
+
+// Mute/Play button
+const btn = document.getElementById('toggle-music');
+btn.addEventListener('click', () => {
+  if(music.paused) { music.play(); btn.textContent = "Mute Music"; }
+  else { music.pause(); btn.textContent = "Play Music"; }
+});
+
+// Fireworks
+const canvas = document.getElementById('fireworks');
+const ctx = canvas.getContext('2d');
+let w = window.innerWidth, h = window.innerHeight;
+canvas.width = w; canvas.height = h;
+
+window.addEventListener('resize', () => {
+  w = canvas.width = window.innerWidth;
+  h = canvas.height = window.innerHeight;
+});
+
+const fireworks = [];
+class Firework {
+  constructor(x,y,color){
+    this.x=x; this.y=y; this.color=color;
+    this.particles=[];
+    for(let i=0;i<70;i++){
+      const angle=(Math.PI*2*i)/70;
+      const speed=Math.random()*4+1;
+      this.particles.push({
+        x:this.x, y:this.y,
+        vx:Math.cos(angle)*speed,
+        vy:Math.sin(angle)*speed,
+        alpha:1
+      });
+    }
+  }
+  update(){
+    this.particles.forEach(p=>{
+      p.x+=p.vx;
+      p.y+=p.vy;
+      p.vy+=0.03;
+      p.alpha-=0.02;
+    });
+  }
+  draw(){
+    this.particles.forEach(p=>{
+      ctx.fillStyle=`rgba(${this.color},${p.alpha})`;
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,2,0,Math.PI*2);
+      ctx.fill();
+    });
+  }
+}
+
+function loop(){
+  ctx.fillStyle="rgba(0,0,0,0.25)";
+  ctx.fillRect(0,0,w,h);
+  fireworks.forEach((fw,i)=>{
+    fw.update();
+    fw.draw();
+    if(fw.particles[0].alpha<=0) fireworks.splice(i,1);
+  });
+  requestAnimationFrame(loop);
+}
+
+function createFirework(){
+  const x=Math.random()*w;
+  const y=Math.random()*h*0.5;
+  const color=`${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)}`;
+  fireworks.push(new Firework(x,y,color));
+}
+
+setInterval(createFirework,500);
+loop();
+
+// Floating stars
+function createStar(){
+  const star = document.createElement('div');
+  star.className = 'star';
+  star.style.left = Math.random()*w+'px';
+  document.body.appendChild(star);
+  let top=-50;
+  const speed=Math.random()*2+1;
+  function fall(){
+    top+=speed;
+    star.style.top=top+'px';
+    if(top<h) requestAnimationFrame(fall);
+    else star.remove();
+  }
+  fall();
+}
+setInterval(createStar,300);
+</script>
+
+</body>
+</html>
