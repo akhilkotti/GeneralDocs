@@ -89,21 +89,17 @@ body{
     box-shadow:0 5px 18px rgba(0,0,0,.08);
 }
 
-.card:hover{
-    transform:translateY(-5px);
-}
-
 .card h2{
     color:#1e3c72;
     margin-bottom:18px;
-    border-bottom:2px solid #e8eef8;
     padding-bottom:10px;
+    border-bottom:2px solid #e8eef8;
 }
 
 .info-row{
     display:flex;
-    padding:10px 0;
-    border-bottom:1px solid #f0f0f0;
+    padding:12px 0;
+    border-bottom:1px solid #eee;
 }
 
 .label{
@@ -214,15 +210,19 @@ ul li{
     text-decoration:none;
 }
 
-
 @media(max-width:768px){
-.hero-content{
-    justify-content:center;
-    text-align:center;
-}
-.profile-info h1{
-    font-size:32px;
-}
+    .hero-content{
+        justify-content:center;
+        text-align:center;
+    }
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .profile-info h1{
+        font-size:36px;
+    }
 }
 </style>
 </head>
