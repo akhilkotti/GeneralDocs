@@ -168,18 +168,18 @@ ul li{
 
 .photo-gallery{
     display:flex;
-    gap:10px;
     flex-wrap:wrap;
-    align-items:center;
+    gap:10px;
+    width:170px; /* forces 2 images per row */
+}
+.photo-gallery a{
+    width:78px;
 }
 .photo-gallery img{
     width:78px;
     height:95px;
     object-fit:cover;
     border-radius:10px;
-    cursor:pointer;
-    border:2px solid rgba(255,255,255,.4);
-    transition:.3s;
 }
 .photo-gallery img:hover{
     transform:scale(1.08);
@@ -237,18 +237,30 @@ ul li{
 
 
 <div class="photo-gallery">
-<a href="#img1"><img src="Vivek-Photo1.jpeg" alt="Photo 1"></a>
-<a href="#img2"><img src="Vivek-Photo2.jpeg" alt="Photo 2"></a>
+<a href="#img1"><img src="Vivek-Photo11.jpeg" alt="Photo 1"></a>
+<a href="#img2"><img src="Vivek-Photo12.jpeg" alt="Photo 2"></a>
+<a href="#img3"><img src="Vivek-Photo13.jpeg" alt="Photo 3"></a>
+<a href="#img4"><img src="Vivek-Photo14.jpeg" alt="Photo 4"></a>
 </div>
 
 <div id="img1" class="lightbox">
 <a href="#" class="close">&times;</a>
-<img src="Vivek-Photo1.jpeg" alt="Photo 1">
+<img src="Vivek-Photo11.jpeg" alt="Photo 1">
 </div>
 
 <div id="img2" class="lightbox">
 <a href="#" class="close">&times;</a>
-<img src="Vivek-Photo2.jpeg" alt="Photo 2">
+<img src="Vivek-Photo12.jpeg" alt="Photo 2">
+</div>
+
+<div id="img3" class="lightbox">
+<a href="#" class="close">&times;</a>
+<img src="Vivek-Photo13.jpeg" alt="Photo 3">
+</div>
+
+<div id="img4" class="lightbox">
+<a href="#" class="close">&times;</a>
+<img src="Vivek-Photo14.jpeg" alt="Photo 4">
 </div>
 
 
