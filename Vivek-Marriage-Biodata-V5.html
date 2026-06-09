@@ -198,7 +198,7 @@ ul li{
     max-height:90%;
     border-radius:12px;
 }
-.lightbox:target{
+.lightbox.active{
     display:flex;
 }
 .close{
@@ -254,41 +254,6 @@ ul li{
 <section class="hero">
 <div class="hero-content">
 
-
-<div id="img1" class="lightbox">
-<a href="#" class="close">&times;</a>
-<img src="Vivek-Photo11.jpeg" alt="Photo 1">
-</div>
-
-<div id="img2" class="lightbox">
-<a href="#" class="close">&times;</a>
-<img src="Vivek-Photo12.jpeg" alt="Photo 2">
-</div>
-
-<div id="img3" class="lightbox">
-<a href="#" class="close">&times;</a>
-<img src="Vivek-Photo13.jpeg" alt="Photo 3">
-</div>
-
-<div id="img4" class="lightbox">
-<a href="#" class="close">&times;</a>
-<img src="Vivek-Photo14.jpeg" alt="Photo 4">
-</div>
-
-<div id="img5" class="lightbox">
-<a href="#" class="close">&times;</a>
-<img src="Vivek-Photo1.jpeg" alt="Photo 4">
-</div>
-
-<div id="img6" class="lightbox">
-<a href="#" class="close">&times;</a>
-<img src="Vivek-Photo2.jpeg" alt="Photo 4">
-</div>
-<div id="img7" class="lightbox">
-<a href="#" class="close">&times;</a>
-<img src="Vivek-Photo4.jpeg" alt="Photo 4">
-</div>
-
 <div class="profile-info">
 <h1>Sai Vivek Kotha</h1>
 <p>Multiple Portfolio Claims Assessor | Sydney, Australia</p>
@@ -308,6 +273,10 @@ ul li{
 
 <div class="grid">
 
+<div id="img1" class="lightbox">
+<span class="close" onclick="closeLightbox()">&times;</span>
+<img src="Vivek-Photo11.jpeg" alt="Photo 1">
+</div>
 <div class="card card-with-photo"><div class="card-body"><h2><i class="fa-solid fa-user"></i> Personal Details</h2>
 
 <div class="info-row"><div class="label">Date of Birth</div><div class="value">22-08-1995</div></div>
@@ -319,11 +288,15 @@ ul li{
 <div class="info-row"><div class="label">Gothram</div><div class="value">Kusma Siri</div></div>
 <div class="info-row"><div class="label">Religion & Caste</div><div class="value">Hindu – Kapu</div></div></div>
 <div class="card-side-photo">
-    <a href="#img1">
+    <a href="javascript:void(0)" onclick="openLightbox('img1')">
         <img src="Vivek-Photo11.jpeg" alt="Vivek">
     </a>
 </div></div>
 
+<div id="img5" class="lightbox">
+<span class="close" onclick="closeLightbox()">&times;</span>
+<img src="Vivek-Photo1.jpeg" alt="Photo 4">
+</div>
 <div class="card card-with-photo"><div class="card-body"><h2><i class="fa-solid fa-briefcase"></i> Career Profile</h2>
 
 <div class="info-row"><div class="label">Profession</div><div class="value">Multiple Portfolio Claims Assessor</div></div>
@@ -332,11 +305,15 @@ ul li{
 <div class="info-row"><div class="label">Income</div><div class="value">Disclosed on Request</div></div>
 <div class="info-row"><div class="label">Location</div><div class="value">Sydney, Australia</div></div></div>
 <div class="card-side-photo">
-    <a href="#img5">
+    <a href="javascript:void(0)" onclick="openLightbox('img5')">
         <img src="Vivek-Photo1.jpeg" alt="Vivek">
     </a>
 </div></div>
 
+<div id="img6" class="lightbox">
+<span class="close" onclick="closeLightbox()">&times;</span>
+<img src="Vivek-Photo2.jpeg" alt="Photo 4">
+</div>
 <div class="card card-with-photo"><div class="card-body"><h2><i class="fa-solid fa-graduation-cap"></i> Education</h2>
 
 <ul>
@@ -344,11 +321,15 @@ ul li{
 <li>Associate Degree in Marketing & Communications Management</li>
 </ul></div>
 <div class="card-side-photo">
-    <a href="#img6">
-        <img src="Vivek-Photo2.jpeg" alt="Vivek">
-    </a>
+<a href="javascript:void(0)" onclick="openLightbox('img6')">
+    <img src="Vivek-Photo2.jpeg" alt="Vivek">
+</a>	
 </div></div>
 
+<div id="img7" class="lightbox">
+<span class="close" onclick="closeLightbox()">&times;</span>
+<img src="Vivek-Photo4.jpeg" alt="Photo 4">
+</div>
 <div class="card card-with-photo"><div class="card-body"><h2><i class="fa-solid fa-people-roof"></i> Family Details</h2>
 
 <div class="info-row"><div class="label">Father</div><div class="value">Narasimha Rao Kotha (Mechanical Engineer)</div></div>
@@ -358,11 +339,15 @@ ul li{
 <div class="info-row"><div class="label">Native Place</div><div class="value">Vijayawada, Machilipatnam</div></div>
 <div class="info-row"><div class="label">Properties</div><div class="value">India & Australia</div></div></div>
 <div class="card-side-photo">
-    <a href="#img7">
+    <a href="javascript:void(0)" onclick="openLightbox('img7')">
         <img src="Vivek-Photo4.jpeg" alt="Vivek">
     </a>
 </div></div>
 
+<div id="img3" class="lightbox">
+<span class="close" onclick="closeLightbox()">&times;</span>
+<img src="Vivek-Photo13.jpeg" alt="Photo 3">
+</div>
 <div class="card card-with-photo"><div class="card-body"><h2><i class="fa-solid fa-handshake"></i> Family Relations</h2>
 
 <div class="highlight">
@@ -371,7 +356,7 @@ Sunkara, Thota, Javvaji, Ramisetty, Sulaga,
 Chalamalasetty, Ramisetty, Devireddy, Adapa.
 </div></div>
 <div class="card-side-photo">
-    <a href="#img3">
+    <a href="javascript:void(0)" onclick="openLightbox('img3')">
         <img src="Vivek-Photo13.jpeg" alt="Vivek">
     </a>
 </div></div>
@@ -409,5 +394,32 @@ Matrimonial Profile | Sai Vivek Kotha
 </div>
 
 </div>
+<script>
+function openLightbox(id) {
+    document.getElementById(id).classList.add('active');
+}
+
+function closeLightbox() {
+    document.querySelectorAll('.lightbox').forEach(function(lightbox) {
+        lightbox.classList.remove('active');
+    });
+}
+
+// Close on ESC key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeLightbox();
+    }
+});
+
+// Close when clicking outside image
+document.querySelectorAll('.lightbox').forEach(function(lightbox) {
+    lightbox.addEventListener('click', function(e) {
+        if (e.target === lightbox) {
+            closeLightbox();
+        }
+    });
+});
+</script>
 </body>
 </html>
