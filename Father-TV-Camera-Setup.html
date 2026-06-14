@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elderly Parent Monitoring & Communication Setup</title>
+
+<style>
+    body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        line-height: 1.7;
+        margin: 0;
+        background: #f4f6f9;
+        color: #333;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 30px auto;
+        background: #fff;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    h1 {
+        color: #0d47a1;
+        border-bottom: 3px solid #0d47a1;
+        padding-bottom: 10px;
+    }
+
+    h2 {
+        color: #1565c0;
+        margin-top: 40px;
+        border-left: 5px solid #1565c0;
+        padding-left: 12px;
+    }
+
+    h3 {
+        color: #1976d2;
+        margin-top: 30px;
+    }
+
+    p {
+        margin: 12px 0;
+    }
+
+    ul, ol {
+        padding-left: 30px;
+    }
+
+    li {
+        margin-bottom: 8px;
+    }
+
+    .note {
+        background: #fff3cd;
+        border-left: 6px solid #ffc107;
+        padding: 15px;
+        margin: 20px 0;
+        border-radius: 6px;
+    }
+
+    .important {
+        background: #ffebee;
+        border-left: 6px solid #e53935;
+        padding: 15px;
+        margin: 20px 0;
+        border-radius: 6px;
+        font-weight: bold;
+    }
+
+    pre {
+        background: #263238;
+        color: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        overflow-x: auto;
+        font-size: 14px;
+    }
+
+    code {
+        font-family: Consolas, monospace;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th {
+        background: #1565c0;
+        color: white;
+        padding: 12px;
+        text-align: left;
+    }
+
+    td {
+        border: 1px solid #ddd;
+        padding: 12px;
+    }
+
+    tr:nth-child(even) {
+        background: #f7f9fc;
+    }
+
+    .check {
+        color: green;
+        font-weight: bold;
+    }
+
+    hr {
+        margin: 40px 0;
+        border: none;
+        border-top: 2px solid #ddd;
+    }
+
+    .footer {
+        margin-top: 40px;
+        text-align: center;
+        color: #666;
+        font-size: 14px;
+    }
+
+    a {
+        color: #1565c0;
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Elderly Parent Monitoring & Communication Setup</h1>
+
+<h2>Recommended Layout</h2>
+
+<h3>Camera 1 – Bedroom</h3>
+
+<p>Covers:</p>
+
+<ul>
+    <li>Bed</li>
+    <li>Chair</li>
+    <li>Room entrance</li>
+</ul>
+
+<pre>
++----------------------+
+|                      |
+| Camera 1             |
+|     ↘                |
+|       Bed            |
+|                      |
+|         Chair        |
+|                      |
+| Door                 |
++----------------------+
+</pre>
+
+<h3>Camera 2 – Staircase</h3>
+
+<p>Covers:</p>
+
+<ul>
+    <li>Entire staircase</li>
+    <li>Movement between floors</li>
+</ul>
+
+<pre>
+      Camera 2
+          ↓
+     =========
+      STAIRS
+     =========
+</pre>
+
+<h3>Camera 3 – Bathroom</h3>
+
+<p>Covers:</p>
+
+<ul>
+    <li>Bathroom area</li>
+</ul>
+
+<pre>
+ Camera 3
+     ↓
+
+ ┌──────────┐
+ │ Bathroom │
+ └──────────┘
+</pre>
+
+<hr>
+
+<h2>Hardware List</h2>
+
+<h3>Communication</h3>
+
+<ul>
+    <li>43" Samsung Smart TV</li>
+    <li>Dedicated Android phone (Samsung Galaxy A-series or similar)</li>
+</ul>
+
+<h3>Monitoring</h3>
+
+<ul>
+    <li>3 × TP-Link Tapo C220</li>
+    <li>3 × 256 GB microSD cards</li>
+</ul>
+
+<h3>Network</h3>
+
+<ul>
+    <li>Fiber broadband</li>
+    <li>Dual-band Wi-Fi router</li>
+</ul>
+
+<h3>Power Backup</h3>
+
+<ul>
+    <li>Router UPS</li>
+    <li>Optional larger UPS for TV</li>
+</ul>
+
+<hr>
+
+<h2>Step 1: Install Broadband</h2>
+
+<p>Choose:</p>
+
+<ul>
+    <li><a href="https://www.jio.com/jiofiber?utm_source=chatgpt.com" target="_blank">JioFiber</a></li>
+    <li><a href="https://www.airtel.in/broadband/?utm_source=chatgpt.com" target="_blank">Airtel Xstream Fiber</a></li>
+</ul>
+
+<p><strong>Recommended plan:</strong></p>
+
+<ul>
+    <li>100 Mbps or higher</li>
+</ul>
+
+<p><strong>Router location:</strong></p>
+
+<ul>
+    <li>Central location in the house.</li>
+</ul>
+
+<hr>
+
+<h2>Step 2: Install Cameras</h2>
+
+<h3>Bedroom Camera</h3>
+
+<p>Mount:</p>
+
+<ul>
+    <li>7–8 feet high</li>
+    <li>Corner of room</li>
+</ul>
+
+<p>Enable:</p>
+
+<ul>
+    <li>Person Detection</li>
+    <li>Motion Detection</li>
+    <li>Night Vision</li>
+</ul>
+
+<hr>
+
+<h3>Staircase Camera</h3>
+
+<p>Mount:</p>
+
+<ul>
+    <li>Top landing preferred</li>
+</ul>
+
+<p>Reason:</p>
+
+<ul>
+    <li>One camera can see the entire staircase.</li>
+</ul>
+
+<hr>
+
+<h3>Bathroom Camera</h3>
+
+<p>Mount:</p>
+
+<ul>
+    <li>Outside bathroom</li>
+    <li>Facing hallway</li>
+</ul>
+
+<p>Purpose:</p>
+
+<ul>
+    <li>Know when your father enters/exits.</li>
+    <li>Preserve privacy.</li>
+</ul>
+
+<hr>
+
+<h2>Step 3: Configure Tapo App</h2>
+
+<p>Install Tapo app on your phone.</p>
+
+<p>Add all three cameras.</p>
+
+<p>Name them:</p>
+
+<pre>
+Father Bedroom
+Staircase
+Bathroom
+</pre>
+
+<p>Enable:</p>
+
+<p class="check">✅ Motion Detection</p>
+<p class="check">✅ Person Detection</p>
+<p class="check">✅ Push Notifications</p>
+<p class="check">✅ Continuous Recording</p>
+
+<p>Insert:</p>
+
+<ul>
+    <li>256GB SD card in each camera</li>
+</ul>
+
+<hr>
+
+<h2>Step 4: Install TV</h2>
+
+<p>Mount TV opposite:</p>
+
+<ul>
+    <li>Bed</li>
+    <li>Recliner</li>
+    <li>Favorite chair</li>
+</ul>
+
+<p>Viewing distance:</p>
+
+<ul>
+    <li>6–10 feet</li>
+</ul>
+
+<hr>
+
+<h2>Step 5: Dedicated Android Phone</h2>
+
+<p>Purchase a dedicated phone.</p>
+
+<p>Suggestions:</p>
+
+<ul>
+    <li>Samsung Galaxy A16</li>
+    <li>Samsung Galaxy A26</li>
+    <li>Any reliable Android phone with good front camera</li>
+</ul>
+
+<p>Purpose:</p>
+
+<ul>
+    <li>Video communication endpoint</li>
+</ul>
+
+<p>Leave it:</p>
+
+<ul>
+    <li>Permanently connected to charger</li>
+    <li>Permanently connected to Wi-Fi</li>
+</ul>
+
+<hr>
+
+<h2>Step 6: Mount Phone Near TV</h2>
+
+<p>Use a wall mount.</p>
+
+<pre>
+      Phone
+        ▲
+        │
+ ┌──────────────┐
+ │    43" TV    │
+ └──────────────┘
+</pre>
+
+<p>Position:</p>
+
+<ul>
+    <li>Front camera facing bed/chair.</li>
+</ul>
+
+<hr>
+
+<h2>Step 7: Auto-Answer Configuration</h2>
+
+<p>This is the most important step.</p>
+
+<p>For the dedicated phone:</p>
+
+<ol>
+    <li>Create a separate Google account.</li>
+    <li>Add only family contacts.</li>
+    <li>Enable accessibility-based auto-answer solution (varies by device and app).</li>
+    <li>Restrict incoming calls to approved contacts.</li>
+</ol>
+
+<p>Test thoroughly before deployment.</p>
+
+<hr>
+
+<h2>Step 8: Video Display on TV</h2>
+
+<h3>Option A (Recommended)</h3>
+
+<p>Keep phone above TV.</p>
+
+<p>Your father looks toward TV and phone.</p>
+
+<p>Simple and reliable.</p>
+
+<h3>Option B</h3>
+
+<p>Use Samsung Smart View / casting.</p>
+
+<p>Phone screen mirrors to TV.</p>
+
+<p>When you call:</p>
+
+<ul>
+    <li>Video appears on TV.</li>
+    <li>Phone camera captures your father.</li>
+</ul>
+
+<hr>
+
+<h2>Step 9: UPS Setup</h2>
+
+<p>Connect:</p>
+
+<pre>
+UPS
+ │
+ ├─ Fiber Router
+ ├─ Wi-Fi Router
+ ├─ Bedroom Camera
+ ├─ Staircase Camera
+ ├─ Bathroom Camera
+ └─ Phone Charger
+</pre>
+
+<p>Optional:</p>
+
+<ul>
+    <li>Larger UPS for TV.</li>
+</ul>
+
+<hr>
+
+<h2>Step 10: Remote Monitoring</h2>
+
+<p>From your phone:</p>
+
+<h3>Check Bedroom</h3>
+
+<p>Open Tapo app.</p>
+
+<p>See:</p>
+
+<ul>
+    <li>Father sleeping</li>
+    <li>Caretaker assisting</li>
+</ul>
+
+<h3>Check Staircase</h3>
+
+<p>Ensure safe movement.</p>
+
+<h3>Check Bathroom</h3>
+
+<p>Verify entry/exit activity.</p>
+
+<h3>Talk Through Cameras</h3>
+
+<p>Press microphone icon.</p>
+
+<p>Speak instantly.</p>
+
+<hr>
+
+<h2>Daily Workflow</h2>
+
+<h3>Monitoring</h3>
+
+<p>Open Tapo app anytime:</p>
+
+<ul>
+    <li>Bedroom</li>
+    <li>Staircase</li>
+    <li>Bathroom entrance</li>
+</ul>
+
+<h3>Communication</h3>
+
+<p>Initiate video call from your phone.</p>
+
+<p>Dedicated phone receives the call.</p>
+
+<p>Video appears on the TV (if mirroring is configured).</p>
+
+<h3>Recording</h3>
+
+<p>All three cameras continuously record.</p>
+
+<p>You can review footage later if needed.</p>
+
+<h3>Approximate Cost</h3>
+
+<table>
+    <thead>
+        <tr>
+            <th>Item</th>
+            <th>Cost</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Samsung 43" TV</td>
+            <td>₹30,000</td>
+        </tr>
+        <tr>
+            <td>3 × Tapo C220</td>
+            <td>₹9,000</td>
+        </tr>
+        <tr>
+            <td>3 × 256GB SD Cards</td>
+            <td>₹6,000</td>
+        </tr>
+        <tr>
+            <td>Dedicated Android Phone</td>
+            <td>₹15,000–20,000</td>
+        </tr>
+        <tr>
+            <td>Fiber Installation</td>
+            <td>₹2,000</td>
+        </tr>
+        <tr>
+            <td>Router UPS</td>
+            <td>₹3,000–8,000</td>
+        </tr>
+        <tr>
+            <td>Mounts & Installation</td>
+            <td>₹5,000</td>
+        </tr>
+    </tbody>
+</table>
+
+<br>
+
+<div class="note">
+<strong>Total:</strong> approximately <strong>₹70,000–₹85,000</strong>
+</div>
+
+<p>
+This stays within your ₹1 lakh budget while providing continuous monitoring,
+video communication, recording, and power-backed connectivity.
+</p>
+
+<div class="footer">
+    Elderly Parent Monitoring & Communication Setup
+</div>
+
+</div>
+
+</body>
+</html>
