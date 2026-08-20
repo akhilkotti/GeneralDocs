@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Accommodation Details</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: #f4f6f8;
+      color: #263238;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+    }
+
+    /* =========================
+       HEADER
+    ========================= */
+
+    .header {
+      background: linear-gradient(135deg, #3949ab, #5c6bc0);
+      color: #ffffff;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .header .icon {
+      font-size: 42px;
+      margin-bottom: 10px;
+    }
+
+    .header h1 {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .header p {
+      font-size: 15px;
+      opacity: 0.9;
+    }
+
+    /* =========================
+       LOCATION IMAGE
+    ========================= */
+
+    .location-image {
+      width: 100%;
+      background: #f1f3f4;
+    }
+
+    .location-image img {
+      display: block;
+      width: 100%;
+      height: 360px;
+      object-fit: cover;
+    }
+
+    .image-caption {
+      padding: 12px 20px;
+      text-align: center;
+      background: #fafafa;
+      color: #666;
+      font-size: 13px;
+    }
+
+    /* =========================
+       GUEST DETAILS
+    ========================= */
+
+    .guest-section {
+      padding: 25px 30px;
+      border-bottom: 1px solid #e8eaed;
+    }
+
+    .guest-label {
+      color: #757575;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 6px;
+    }
+
+    .guest-name {
+      font-size: 24px;
+      font-weight: 600;
+      color: #212121;
+    }
+
+    /* =========================
+       SECTIONS
+    ========================= */
+
+    .section {
+      padding: 25px 30px;
+      border-bottom: 1px solid #e8eaed;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 19px;
+      font-weight: 600;
+      color: #303f9f;
+      margin-bottom: 20px;
+    }
+
+    .section-title .icon {
+      font-size: 22px;
+    }
+
+    /* =========================
+       ACCOMMODATION DETAILS
+    ========================= */
+
+    .details-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .detail-item {
+      background: #f8f9fb;
+      border-radius: 10px;
+      padding: 15px;
+      border: 1px solid #eef0f3;
+    }
+
+    .detail-label {
+      font-size: 12px;
+      color: #757575;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 5px;
+    }
+
+    .detail-value {
+      font-size: 16px;
+      font-weight: 500;
+      color: #263238;
+    }
+
+    /* =========================
+       LOCATION DETAILS
+    ========================= */
+
+    .location-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .location-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      padding: 16px 18px;
+      background: #f8f9fb;
+      border: 1px solid #e8eaed;
+      border-radius: 10px;
+      transition: all 0.2s ease;
+    }
+
+    .location-link:hover {
+      background: #f0f2ff;
+      border-color: #c5cae9;
+      transform: translateY(-1px);
+    }
+
+    .location-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .location-icon {
+      font-size: 22px;
+      min-width: 28px;
+      flex-shrink: 0;
+    }
+
+    .location-name {
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .map-button {
+      background: #3949ab;
+      color: #ffffff;
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 7px;
+      font-size: 13px;
+      font-weight: 500;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: background 0.2s ease;
+    }
+
+    .map-button:hover {
+      background: #303f9f;
+    }
+
+    /* =========================
+       ARRIVAL DATE
+    ========================= */
+
+    .arrival-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      background: #f8f9fb;
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid #e8eaed;
+    }
+
+    .arrival-date {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .arrival-label {
+      font-size: 12px;
+      color: #757575;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+
+    .arrival-value {
+      font-size: 20px;
+      font-weight: 600;
+      color: #212121;
+      white-space: nowrap;
+    }
+
+    .confirmed {
+      background: #e8f5e9;
+      color: #2e7d32;
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    .footer {
+      text-align: center;
+      padding: 30px 20px;
+      background: #fafafa;
+      border-top: 1px solid #e8eaed;
+    }
+
+    .footer-label {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #757575;
+      margin-bottom: 8px;
+    }
+
+    .footer-names {
+      font-size: 24px;
+      font-weight: 600;
+      color: #3949ab;
+      margin-bottom: 8px;
+    }
+
+    .footer-message {
+      font-size: 14px;
+      color: #888;
+      font-style: italic;
+    }
+
+    /* =========================
+       TABLET / MOBILE
+    ========================= */
+
+    @media (max-width: 600px) {
+
+      body {
+        padding: 20px 12px;
+      }
+
+      .header {
+        padding: 25px 20px;
+      }
+
+      .header .icon {
+        font-size: 36px;
+      }
+
+      .header h1 {
+        font-size: 24px;
+      }
+
+      .location-image img {
+        height: 250px;
+      }
+
+      .guest-section,
+      .section {
+        padding: 20px;
+      }
+
+      .guest-name {
+        font-size: 22px;
+      }
+
+      .details-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .location-link {
+        align-items: center;
+      }
+
+      .location-name {
+        font-size: 14px;
+      }
+
+      .map-button {
+        padding: 7px 10px;
+      }
+
+      /* Keep arrival date and confirmation
+         on the same row */
+      .arrival-card {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 16px;
+      }
+
+      .arrival-date {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .arrival-value {
+        font-size: 18px;
+        white-space: nowrap;
+      }
+
+      .confirmed {
+        flex-shrink: 0;
+        margin-left: 0;
+        padding: 7px 10px;
+        font-size: 12px;
+        white-space: nowrap;
+      }
+
+      .footer-names {
+        font-size: 20px;
+      }
+    }
+	.note-section {
+	  margin: 0;
+	  padding: 18px 30px;
+	  background: #fff8e1;
+	  border-top: 1px solid #f0e0a0;
+	  border-bottom: 1px solid #f0e0a0;
+	  text-align: center;
+	}
+
+	.note-title {
+	  font-size: 13px;
+	  font-weight: 700;
+	  color: #8a6d1d;
+	  text-transform: uppercase;
+	  letter-spacing: 1px;
+	  margin-bottom: 7px;
+	}
+
+	.note-content {
+	  font-size: 14px;
+	  color: #5f5125;
+	}
+
+	.note-content strong {
+	  color: #4e421c;
+	}
+
+	.note-separator {
+	  margin: 0 8px;
+	  color: #b89b35;
+	}
+
+	@media (max-width: 600px) {
+
+	  .note-section {
+		padding: 18px 20px;
+	  }
+
+	  .note-content {
+		font-size: 13px;
+		line-height: 1.6;
+	  }
+	}
+    /* =========================
+       SMALL MOBILE
+    ========================= */
+
+    @media (max-width: 420px) {
+
+      .location-link {
+        align-items: flex-start;
+      }
+
+      .location-info {
+        align-items: flex-start;
+      }
+
+      .map-button {
+        font-size: 12px;
+        padding: 7px 9px;
+      }
+
+      /*
+       * IMPORTANT:
+       * Keep Confirmed on the same row.
+       */
+      .arrival-card {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        padding: 16px;
+      }
+
+      .arrival-date {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .arrival-label {
+        font-size: 11px;
+      }
+
+      .arrival-value {
+        font-size: 16px;
+        white-space: nowrap;
+      }
+
+      .confirmed {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        margin: 0;
+        padding: 6px 8px;
+        font-size: 11px;
+        line-height: 1;
+        white-space: nowrap;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <div class="card">
+
+      <!-- =========================
+           HEADER
+      ========================== -->
+
+      <header class="header">
+
+        <div class="icon">
+          🏨
+        </div>
+
+        <h1>
+          Accommodation Details
+        </h1>
+
+        <p>
+          Wedding Guest Accommodation
+        </p>
+
+      </header>
+
+
+      <!-- =========================
+           DWija INN IMAGE
+      ========================== -->
+
+      <div class="location-image">
+
+        <img
+          src="https://akhilkotti.github.io/GeneralDocs/Lakdikapool-Image.png"
+          alt="Townhouse Hotel - Lakdikapool"
+        >
+
+        <div class="image-caption">
+          Townhouse Hotel - Lakdikapool, Hyderabad
+        </div>
+
+      </div>
+
+
+      <!-- =========================
+           GUEST DETAILS
+      ========================== -->
+
+      <section class="guest-section">
+
+        <div class="guest-label">
+          Guest/s
+        </div>
+
+        <div class="guest-name">
+          NTTF Friends & Family
+        </div>
+
+      </section>
+
+
+      <!-- =========================
+           ACCOMMODATION DETAILS
+      ========================== -->
+
+      <section class="section">
+
+        <h2 class="section-title">
+
+          <span class="icon">
+            🛏️
+          </span>
+
+          Accommodation Details
+
+        </h2>
+
+
+        <div class="details-grid">
+
+          <div class="detail-item">
+
+            <div class="detail-label">
+              Hotel
+            </div>
+
+            <div class="detail-value">
+              Townhouse Hotel
+            </div>
+
+          </div>
+
+
+          <div class="detail-item">
+
+            <div class="detail-label">
+              Location
+            </div>
+
+            <div class="detail-value">
+              Lakdikapool
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =========================
+           LOCATION DETAILS
+      ========================== -->
+
+      <section class="section">
+
+        <h2 class="section-title">
+
+          <span class="icon">
+            📍
+          </span>
+
+          Location Details
+
+        </h2>
+
+
+        <div class="location-list">
+
+
+          <!-- HOTEL LOCATION -->
+
+          <div class="location-link">
+
+            <div class="location-info">
+
+              <span class="location-icon">
+                🏨
+              </span>
+
+              <span class="location-name">
+                Townhouse Hotel – Hotel Location
+              </span>
+
+            </div>
+
+
+            <a
+              class="map-button"
+              href="https://maps.app.goo.gl/5vASUVik4dSHNBXSA"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View Map
+            </a>
+
+          </div>
+
+
+          <!-- AIRPORT -->
+
+          <div class="location-link">
+
+            <div class="location-info">
+
+              <span class="location-icon">
+                ✈️
+              </span>
+
+              <span class="location-name">
+                Rajiv Gandhi International Airport → Townhouse Hotel
+              </span>
+
+            </div>
+
+
+            <a
+              class="map-button"
+              href="https://maps.app.goo.gl/PaTQBfmJpWGVrq3EA"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View Route
+            </a>
+
+          </div>
+
+
+          <!-- BUS STATION -->
+
+          <div class="location-link">
+
+            <div class="location-info">
+
+              <span class="location-icon">
+                🚌
+              </span>
+
+              <span class="location-name">
+                MGBS / Gowliguda → Townhouse Hotel
+              </span>
+
+            </div>
+
+
+            <a
+              class="map-button"
+              href="https://maps.app.goo.gl/dcxYJNx2f7wnVwQd9"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View Route
+            </a>
+
+          </div>
+		  
+			<!-- SECUNDERABAD RAILWAY STATION -->
+
+			<div class="location-link">
+
+			  <div class="location-info">
+
+				<span class="location-icon">
+				  🚆
+				</span>
+
+				<span class="location-name">
+				  Secunderabad Railway Station → Townhouse Hotel
+				</span>
+
+			  </div>
+
+			  <a
+				class="map-button"
+				href="https://maps.app.goo.gl/NYGzTGhM5KKDHqSN9"
+				target="_blank"
+				rel="noopener noreferrer"
+			  >
+				View Route
+			  </a>
+
+			</div>			  
+
+        </div>
+
+      </section>
+
+      <!-- =========================
+           ARRIVAL DATE
+      ========================== -->
+
+      <section class="section">
+
+        <h2 class="section-title">
+          Arrival Date
+        </h2>
+
+
+        <div class="arrival-card">
+
+          <div class="arrival-date">
+
+            <div class="arrival-label">
+              Arrival Date
+            </div>
+
+            <div class="arrival-value">
+              25/26 August 2026
+            </div>
+
+          </div>
+
+
+          <div class="confirmed">
+            ✓ Confirmed
+          </div>
+
+        </div>
+
+      </section>
+
+		<!-- =========================
+			 IMPORTANT NOTE
+		========================== -->
+
+		<section class="note-section">
+
+		  <div class="note-title">
+			Important Note
+		  </div>
+
+		  <div class="note-content">
+			<strong>Savya Nayak</strong> stays in the
+			<strong>Ground-Floor Cellar</strong> and can be contacted for any assistance.
+			<br>
+			<strong>Mobile:</strong> 8978820467
+		  </div>
+
+		</section>
+
+      <!-- =========================
+           FOOTER
+      ========================== -->
+
+      <footer class="footer">
+
+        <div class="footer-label">
+          With Warm Regards From
+        </div>
+
+        <div class="footer-names">
+          Anil &amp; Hareesha
+        </div>
+
+        <div class="footer-message">
+          We look forward to welcoming you!
+        </div>
+
+      </footer>
+
+    </div>
+
+  </div>
+
+</body>
+</html>
