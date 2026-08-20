@@ -222,6 +222,42 @@
     }
 
     /* =========================
+       CSS CALENDAR ICON
+       Used instead of 📅 emoji
+    ========================= */
+
+    .calendar-icon-small {
+      position: relative;
+      width: 26px;
+      height: 26px;
+      display: inline-flex;
+      align-items: flex-end;
+      justify-content: center;
+      background: #3949ab;
+      border-radius: 5px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .calendar-icon-small .calendar-top {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 8px;
+      background: #303f9f;
+    }
+
+    .calendar-icon-small .calendar-number {
+      position: relative;
+      z-index: 1;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 15px;
+    }
+
+    /* =========================
        ARRIVAL DATE
     ========================= */
 
@@ -242,15 +278,34 @@
     }
 
     .arrival-icon {
+      position: relative;
       width: 48px;
       height: 48px;
       display: flex;
-      align-items: center;
+      align-items: flex-end;
       justify-content: center;
       background: #3949ab;
-      color: #ffffff;
       border-radius: 10px;
-      font-size: 22px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .arrival-icon .calendar-top {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 14px;
+      background: #303f9f;
+    }
+
+    .arrival-icon .calendar-number {
+      position: relative;
+      z-index: 1;
+      color: #ffffff;
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 28px;
     }
 
     .arrival-label {
@@ -511,6 +566,32 @@
 
           </div>
 
+
+          <div class="detail-item">
+
+            <div class="detail-label">
+              Accommodation
+            </div>
+
+            <div class="detail-value">
+              1 Bedroom
+            </div>
+
+          </div>
+
+
+          <div class="detail-item">
+
+            <div class="detail-label">
+              Stay
+            </div>
+
+            <div class="detail-value">
+              25th to 27th August 2026
+            </div>
+
+          </div>
+
         </div>
 
       </section>
@@ -635,10 +716,6 @@
 
         <h2 class="section-title">
 
-          <span class="icon">
-            📅
-          </span>
-
           Arrival Date
 
         </h2>
@@ -646,12 +723,7 @@
 
         <div class="arrival-card">
 
-
           <div class="arrival-date">
-
-            <div class="arrival-icon">
-              📅
-            </div>
 
 
             <div>
@@ -672,7 +744,6 @@
           <div class="confirmed">
             ✓ Confirmed
           </div>
-
 
         </div>
 
