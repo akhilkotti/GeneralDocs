@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Accommodation Details - Khayat Khan</title>
 
   <style>
@@ -31,7 +32,10 @@
       overflow: hidden;
     }
 
-    /* Header */
+    /* =========================
+       HEADER
+    ========================= */
+
     .header {
       background: linear-gradient(135deg, #3949ab, #5c6bc0);
       color: #ffffff;
@@ -55,7 +59,10 @@
       opacity: 0.9;
     }
 
-    /* Location Image */
+    /* =========================
+       LOCATION IMAGE
+    ========================= */
+
     .location-image {
       width: 100%;
       background: #f1f3f4;
@@ -76,7 +83,10 @@
       font-size: 13px;
     }
 
-    /* Guest */
+    /* =========================
+       GUEST DETAILS
+    ========================= */
+
     .guest-section {
       padding: 25px 30px;
       border-bottom: 1px solid #e8eaed;
@@ -96,13 +106,16 @@
       color: #212121;
     }
 
-    /* Sections */
+    /* =========================
+       SECTIONS
+    ========================= */
+
     .section {
       padding: 25px 30px;
       border-bottom: 1px solid #e8eaed;
     }
 
-    .section:last-child {
+    .section:last-of-type {
       border-bottom: none;
     }
 
@@ -120,7 +133,10 @@
       font-size: 22px;
     }
 
-    /* Details Grid */
+    /* =========================
+       ACCOMMODATION DETAILS
+    ========================= */
+
     .details-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -148,7 +164,10 @@
       color: #263238;
     }
 
-    /* Location Links */
+    /* =========================
+       LOCATION DETAILS
+    ========================= */
+
     .location-list {
       display: flex;
       flex-direction: column;
@@ -177,6 +196,7 @@
       display: flex;
       align-items: center;
       gap: 12px;
+      min-width: 0;
     }
 
     .location-icon {
@@ -205,7 +225,10 @@
       background: #303f9f;
     }
 
-    /* Arrival */
+    /* =========================
+       ARRIVAL DATE
+    ========================= */
+
     .arrival-card {
       display: flex;
       align-items: center;
@@ -258,17 +281,44 @@
       font-weight: 600;
     }
 
-    /* Footer */
+    /* =========================
+       FOOTER
+    ========================= */
+
     .footer {
       text-align: center;
-      padding: 20px;
+      padding: 30px 20px;
       background: #fafafa;
-      color: #888;
-      font-size: 12px;
+      border-top: 1px solid #e8eaed;
     }
 
-    /* Responsive */
+    .footer-label {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #757575;
+      margin-bottom: 8px;
+    }
+
+    .footer-names {
+      font-size: 24px;
+      font-weight: 600;
+      color: #3949ab;
+      margin-bottom: 8px;
+    }
+
+    .footer-message {
+      font-size: 14px;
+      color: #888;
+      font-style: italic;
+    }
+
+    /* =========================
+       RESPONSIVE DESIGN
+    ========================= */
+
     @media (max-width: 600px) {
+
       body {
         padding: 20px 12px;
       }
@@ -298,6 +348,10 @@
         align-items: flex-start;
       }
 
+      .location-name {
+        font-size: 14px;
+      }
+
       .map-button {
         padding: 7px 10px;
       }
@@ -305,6 +359,10 @@
       .arrival-card {
         align-items: flex-start;
         gap: 15px;
+      }
+
+      .footer-names {
+        font-size: 20px;
       }
     }
   </style>
@@ -316,122 +374,212 @@
 
     <div class="card">
 
-      <!-- Header -->
+      <!-- =========================
+           HEADER
+      ========================== -->
+
       <header class="header">
-        <div class="icon">🏨</div>
-        <h1>Accommodation Details</h1>
-        <p>Wedding Guest Accommodation</p>
+
+        <div class="icon">
+          🏨
+        </div>
+
+        <h1>
+          Accommodation Details
+        </h1>
+
+        <p>
+          Wedding Guest Accommodation
+        </p>
+
       </header>
 
-      <!-- Dwija Inn Location Image -->
+
+      <!-- =========================
+           DWija INN IMAGE
+      ========================== -->
+
       <div class="location-image">
+
         <img
           src="https://akhilkotti.github.io/GeneralDocs/Dwija-Inn-Image.png"
           alt="Dwija Inn - Subbamma Towers"
         >
+
         <div class="image-caption">
           Dwija Inn – Subbamma Towers, Hyderabad
         </div>
+
       </div>
 
-      <!-- Guest Details -->
+
+      <!-- =========================
+           GUEST
+      ========================== -->
+
       <section class="guest-section">
-        <div class="guest-label">Guest</div>
-        <div class="guest-name">Khayat Khan</div>
+
+        <div class="guest-label">
+          Guest
+        </div>
+
+        <div class="guest-name">
+          Khayat Khan
+        </div>
+
       </section>
 
-      <!-- Accommodation Details -->
+
+      <!-- =========================
+           ACCOMMODATION DETAILS
+      ========================== -->
+
       <section class="section">
 
         <h2 class="section-title">
-          <span class="icon">🛏️</span>
+
+          <span class="icon">
+            🛏️
+          </span>
+
           Accommodation Details
+
         </h2>
+
 
         <div class="details-grid">
 
           <div class="detail-item">
-            <div class="detail-label">Hotel</div>
-            <div class="detail-value">Dwija Inn</div>
+
+            <div class="detail-label">
+              Hotel
+            </div>
+
+            <div class="detail-value">
+              Dwija Inn
+            </div>
+
           </div>
 
+
           <div class="detail-item">
-            <div class="detail-label">Location</div>
-            <div class="detail-value">Subbamma Towers</div>
+
+            <div class="detail-label">
+              Location
+            </div>
+
+            <div class="detail-value">
+              Subbamma Towers
+            </div>
+
           </div>
 
         </div>
 
       </section>
 
-      <!-- Location Details -->
+
+      <!-- =========================
+           LOCATION DETAILS
+      ========================== -->
+
       <section class="section">
 
         <h2 class="section-title">
-          <span class="icon">📍</span>
+
+          <span class="icon">
+            📍
+          </span>
+
           Location Details
+
         </h2>
+
 
         <div class="location-list">
 
-          <!-- Hotel Location -->
+
+          <!-- HOTEL LOCATION -->
+
           <div class="location-link">
 
             <div class="location-info">
-              <span class="location-icon">🏨</span>
+
+              <span class="location-icon">
+                🏨
+              </span>
 
               <span class="location-name">
                 Dwija Inn – Hotel Location
               </span>
+
             </div>
+
 
             <a
               class="map-button"
               href="https://maps.app.goo.gl/UY9EGgRMWqfAdHmh8"
               target="_blank"
-              rel="noopener noreferrer">
+              rel="noopener noreferrer"
+            >
               View Map
             </a>
 
           </div>
 
-          <!-- Airport -->
+
+          <!-- AIRPORT -->
+
           <div class="location-link">
 
             <div class="location-info">
-              <span class="location-icon">✈️</span>
+
+              <span class="location-icon">
+                ✈️
+              </span>
 
               <span class="location-name">
                 Rajiv Gandhi International Airport → Dwija Inn
               </span>
+
             </div>
+
 
             <a
               class="map-button"
               href="https://maps.app.goo.gl/Dutg3VkEqHh8Muwx8"
               target="_blank"
-              rel="noopener noreferrer">
+              rel="noopener noreferrer"
+            >
               View Route
             </a>
 
           </div>
 
-          <!-- Bus Station -->
+
+          <!-- BUS STATION -->
+
           <div class="location-link">
 
             <div class="location-info">
-              <span class="location-icon">🚌</span>
+
+              <span class="location-icon">
+                🚌
+              </span>
 
               <span class="location-name">
                 MGBS / Gowliguda → Dwija Inn
               </span>
+
             </div>
+
 
             <a
               class="map-button"
               href="https://maps.app.goo.gl/NAdfTVP1Rt87yxss9"
               target="_blank"
-              rel="noopener noreferrer">
+              rel="noopener noreferrer"
+            >
               View Route
             </a>
 
@@ -441,15 +589,26 @@
 
       </section>
 
-      <!-- Arrival Date -->
+
+      <!-- =========================
+           ARRIVAL DATE
+      ========================== -->
+
       <section class="section">
 
         <h2 class="section-title">
-          <span class="icon">📅</span>
+
+          <span class="icon">
+            📅
+          </span>
+
           Arrival Date
+
         </h2>
 
+
         <div class="arrival-card">
+
 
           <div class="arrival-date">
 
@@ -457,7 +616,9 @@
               25
             </div>
 
+
             <div>
+
               <div class="arrival-label">
                 Arrival
               </div>
@@ -465,22 +626,41 @@
               <div class="arrival-value">
                 25th
               </div>
+
             </div>
 
           </div>
+
 
           <div class="confirmed">
             ✓ Confirmed
           </div>
 
+
         </div>
 
       </section>
 
-      <!-- Footer -->
-      <div class="footer">
-        Please use the location links above for directions.
-      </div>
+
+      <!-- =========================
+           FOOTER
+      ========================== -->
+
+      <footer class="footer">
+
+        <div class="footer-label">
+          With Warm Regards From
+        </div>
+
+        <div class="footer-names">
+          Anil &amp; Hareesha
+        </div>
+
+        <div class="footer-message">
+          We look forward to welcoming you!
+        </div>
+
+      </footer>
 
     </div>
 
