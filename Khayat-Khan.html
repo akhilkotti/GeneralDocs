@@ -193,11 +193,13 @@
       align-items: center;
       gap: 12px;
       min-width: 0;
+      flex: 1;
     }
 
     .location-icon {
       font-size: 22px;
       min-width: 28px;
+      flex-shrink: 0;
     }
 
     .location-name {
@@ -214,47 +216,12 @@
       font-size: 13px;
       font-weight: 500;
       white-space: nowrap;
+      flex-shrink: 0;
       transition: background 0.2s ease;
     }
 
     .map-button:hover {
       background: #303f9f;
-    }
-
-    /* =========================
-       CSS CALENDAR ICON
-       Used instead of 📅 emoji
-    ========================= */
-
-    .calendar-icon-small {
-      position: relative;
-      width: 26px;
-      height: 26px;
-      display: inline-flex;
-      align-items: flex-end;
-      justify-content: center;
-      background: #3949ab;
-      border-radius: 5px;
-      overflow: hidden;
-      flex-shrink: 0;
-    }
-
-    .calendar-icon-small .calendar-top {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 8px;
-      background: #303f9f;
-    }
-
-    .calendar-icon-small .calendar-number {
-      position: relative;
-      z-index: 1;
-      color: #ffffff;
-      font-size: 11px;
-      font-weight: 700;
-      line-height: 15px;
     }
 
     /* =========================
@@ -265,6 +232,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 15px;
       background: #f8f9fb;
       border-radius: 12px;
       padding: 20px;
@@ -272,40 +240,8 @@
     }
 
     .arrival-date {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .arrival-icon {
-      position: relative;
-      width: 48px;
-      height: 48px;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      background: #3949ab;
-      border-radius: 10px;
-      overflow: hidden;
-      flex-shrink: 0;
-    }
-
-    .arrival-icon .calendar-top {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 14px;
-      background: #303f9f;
-    }
-
-    .arrival-icon .calendar-number {
-      position: relative;
-      z-index: 1;
-      color: #ffffff;
-      font-size: 18px;
-      font-weight: 700;
-      line-height: 28px;
+      min-width: 0;
+      flex: 1;
     }
 
     .arrival-label {
@@ -313,13 +249,14 @@
       color: #757575;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      margin-bottom: 3px;
+      margin-bottom: 4px;
     }
 
     .arrival-value {
       font-size: 20px;
       font-weight: 600;
       color: #212121;
+      white-space: nowrap;
     }
 
     .confirmed {
@@ -330,6 +267,7 @@
       font-size: 13px;
       font-weight: 600;
       white-space: nowrap;
+      flex-shrink: 0;
     }
 
     /* =========================
@@ -365,7 +303,7 @@
     }
 
     /* =========================
-       RESPONSIVE DESIGN
+       TABLET / MOBILE
     ========================= */
 
     @media (max-width: 600px) {
@@ -415,24 +353,43 @@
         padding: 7px 10px;
       }
 
+      /* Keep arrival date and confirmation
+         on the same row */
       .arrival-card {
+        display: flex;
+        flex-direction: row;
         align-items: center;
-        gap: 12px;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 16px;
+      }
+
+      .arrival-date {
+        flex: 1;
+        min-width: 0;
       }
 
       .arrival-value {
         font-size: 18px;
+        white-space: nowrap;
       }
 
       .confirmed {
+        flex-shrink: 0;
+        margin-left: 0;
         padding: 7px 10px;
         font-size: 12px;
+        white-space: nowrap;
       }
 
       .footer-names {
         font-size: 20px;
       }
     }
+
+    /* =========================
+       SMALL MOBILE
+    ========================= */
 
     @media (max-width: 420px) {
 
@@ -446,15 +403,46 @@
 
       .map-button {
         font-size: 12px;
+        padding: 7px 9px;
       }
 
+      /*
+       * IMPORTANT:
+       * Keep Confirmed on the same row.
+       */
       .arrival-card {
-        flex-direction: column;
-        align-items: flex-start;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        padding: 16px;
+      }
+
+      .arrival-date {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .arrival-label {
+        font-size: 11px;
+      }
+
+      .arrival-value {
+        font-size: 16px;
+        white-space: nowrap;
       }
 
       .confirmed {
-        margin-left: 62px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        margin: 0;
+        padding: 6px 8px;
+        font-size: 11px;
+        line-height: 1;
+        white-space: nowrap;
       }
     }
   </style>
@@ -562,32 +550,6 @@
 
             <div class="detail-value">
               Subbamma Towers
-            </div>
-
-          </div>
-
-
-          <div class="detail-item">
-
-            <div class="detail-label">
-              Accommodation
-            </div>
-
-            <div class="detail-value">
-              1 Bedroom
-            </div>
-
-          </div>
-
-
-          <div class="detail-item">
-
-            <div class="detail-label">
-              Stay
-            </div>
-
-            <div class="detail-value">
-              25th to 27th August 2026
             </div>
 
           </div>
@@ -715,9 +677,7 @@
       <section class="section">
 
         <h2 class="section-title">
-
           Arrival Date
-
         </h2>
 
 
@@ -725,17 +685,12 @@
 
           <div class="arrival-date">
 
+            <div class="arrival-label">
+              Arrival Date
+            </div>
 
-            <div>
-
-              <div class="arrival-label">
-                Arrival Date
-              </div>
-
-              <div class="arrival-value">
-                25 August 2026
-              </div>
-
+            <div class="arrival-value">
+              25 August 2026
             </div>
 
           </div>
