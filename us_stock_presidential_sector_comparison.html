@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>US Stocks — Presidential Administration & Sector Comparison</title>
+<style>
+:root{--ink:#1d2939;--muted:#667085;--line:#e4e7ec;--paper:#fff;--canvas:#f5f7fa;--nav:#101828;--nav-muted:#c4cbd6;--accent:#315efb;--red:#b42318}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:24px}
+body{margin:0;background:var(--canvas);color:var(--ink);font-family:"Segoe UI",Arial,sans-serif;line-height:1.62}
+.topbar{position:sticky;top:0;z-index:5;background:rgba(255,255,255,.94);border-bottom:1px solid var(--line);backdrop-filter:blur(10px)}
+.topbar-inner{max-width:1600px;margin:auto;padding:14px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{font-weight:700;letter-spacing:-.02em}.brand small{display:block;color:var(--muted);font-weight:400;font-size:12px;letter-spacing:0}
+.top-actions{display:flex;gap:10px;align-items:center}.top-actions a,.top-actions button{border:1px solid var(--line);background:white;color:var(--ink);border-radius:8px;padding:8px 12px;font:inherit;font-size:13px;text-decoration:none;cursor:pointer}
+.layout{max-width:1600px;margin:0 auto;display:grid;grid-template-columns:280px minmax(0,1fr);gap:28px;padding:26px 28px 60px;align-items:start}
+.sidebar{position:sticky;top:78px;background:var(--nav);color:white;border-radius:14px;padding:20px 14px;max-height:calc(100vh - 100px);overflow:auto;box-shadow:0 8px 24px rgba(16,24,40,.12)}
+.sidebar h2{margin:0 10px 5px;font-size:15px;color:#fff}.sidebar p{margin:0 10px 16px;color:#98a2b3;font-size:12px}
+.nav-link{display:flex;gap:11px;align-items:center;padding:10px 11px;border-radius:8px;color:var(--nav-muted);text-decoration:none;font-size:13px;margin:2px 0;transition:.15s ease}
+.nav-link:hover{background:#25324a;color:white}.nav-link.active{background:#253b67;color:#fff;box-shadow:inset 3px 0 0 #84adff}
+.nav-number{color:#8fa0b8;font-size:11px;font-weight:700;min-width:22px;font-variant-numeric:tabular-nums}
+.main{min-width:0}.hero{background:linear-gradient(135deg,#172b4d,#254b78);color:white;padding:34px 38px;border-radius:16px;margin-bottom:22px;box-shadow:0 10px 30px rgba(16,24,40,.12)}
+.hero .eyebrow{font-size:11px;letter-spacing:.12em;font-weight:700;color:#b9d0f5}.hero h1{margin:8px 0 10px;font-size:clamp(25px,3vw,38px);line-height:1.18;letter-spacing:-.035em}
+.hero p{margin:0;max-width:850px;color:#e0e9f6;font-size:15px}
+.sector-section{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:30px 34px 24px;margin:0 0 22px;box-shadow:0 2px 8px rgba(16,24,40,.035);scroll-margin-top:88px}
+.section-kicker{color:var(--accent);font-size:10px;letter-spacing:.14em;font-weight:800}.sector-section h2{margin:4px 0 22px;font-size:27px;line-height:1.25;letter-spacing:-.025em}
+.section-content h3{margin:26px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--line);font-size:18px}.section-content h4{margin:22px 0 8px;font-size:15px}
+.section-content p{margin:9px 0;font-size:14px}.section-content ul{margin:8px 0 16px;padding-left:22px;font-size:14px}.section-content li{margin:5px 0}
+.table-wrap{width:100%;overflow-x:auto;margin:14px 0 20px;border:1px solid var(--line);border-radius:9px}
+table{border-collapse:collapse;width:100%;min-width:650px;font-size:13px}th{background:#f2f4f7;color:#344054;text-align:left;font-weight:700}
+th,td{padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top}tr:last-child td{border-bottom:0}td:first-child{font-weight:600;white-space:nowrap}
+.source-note{color:var(--muted);font-size:12px!important}.source-link{font-size:12px}.tag{display:inline-block;border-radius:999px;background:#fff1f0;color:var(--red);padding:3px 9px;font-size:11px;font-weight:700}
+a{color:#2457c5}.back-top{display:inline-block;margin-top:18px;color:var(--muted);text-decoration:none;font-size:12px}.back-top:hover{color:var(--accent)}
+.footer{text-align:center;color:var(--muted);font-size:12px;padding:18px}
+@media(max-width:900px){.layout{grid-template-columns:1fr;padding:16px;gap:16px}.sidebar{position:relative;top:auto;max-height:none}.sidebar nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px}.hero{padding:26px 24px}.sector-section{padding:24px 20px}}
+@media(max-width:520px){.topbar-inner{padding:11px 14px}.top-actions a{display:none}.sidebar nav{grid-template-columns:1fr}.sector-section h2{font-size:23px}}
+@media print{body{background:white}.topbar,.sidebar,.back-top{display:none!important}.layout{display:block;padding:0}.hero,.sector-section{box-shadow:none;break-inside:avoid}.sector-section{border:0;padding:18px 0}.table-wrap{overflow:visible}table{min-width:0;font-size:10px}}
+</style></head>
+<body id="top">
+<header class="topbar"><div class="topbar-inner"><div class="brand">US Stock Market & Politics<small>Presidential administration and sector comparison</small></div><div class="top-actions"><a href="#sector-12">Overall sensitivity</a><button onclick="window.print()">Print / Save PDF</button></div></div></header>
+<div class="layout"><aside class="sidebar"><h2>Report navigation</h2><p>Jump to any sector or the overall comparison</p><nav><a href="#sector-1" class="nav-link"><span class="nav-number">01</span><span>Technology</span></a>
+<a href="#sector-2" class="nav-link"><span class="nav-number">02</span><span>Communication Services</span></a>
+<a href="#sector-3" class="nav-link"><span class="nav-number">03</span><span>Consumer Discretionary</span></a>
+<a href="#sector-4" class="nav-link"><span class="nav-number">04</span><span>Consumer Staples</span></a>
+<a href="#sector-5" class="nav-link"><span class="nav-number">05</span><span>Healthcare</span></a>
+<a href="#sector-6" class="nav-link"><span class="nav-number">06</span><span>Financials</span></a>
+<a href="#sector-7" class="nav-link"><span class="nav-number">07</span><span>Energy</span></a>
+<a href="#sector-8" class="nav-link"><span class="nav-number">08</span><span>Industrials</span></a>
+<a href="#sector-9" class="nav-link"><span class="nav-number">09</span><span>Materials</span></a>
+<a href="#sector-10" class="nav-link"><span class="nav-number">10</span><span>Utilities</span></a>
+<a href="#sector-11" class="nav-link"><span class="nav-number">11</span><span>Real Estate</span></a>
+<a href="#sector-12" class="nav-link"><span class="nav-number">12</span><span>Overall comparison: Which sectors are most politically sensitive?</span></a></nav></aside>
+<main class="main"><div class="hero"><div class="eyebrow">US EQUITY RESEARCH • 11 SECTORS • 55 STOCK ENTRIES</div><h1>Stock Performance Under Democratic and Republican Administrations</h1><p>A sector-by-sector comparison of business policy exposure, historical stock returns, administration-level CAGR and political sensitivity. Select a sector from the left navigation to view its content.</p></div>
+<section class="sector-section" id="sector-1"><div class="section-kicker">SECTOR 01</div><h2>Technology</h2><div class="section-content"><p>Yes. For the five technology stocks you listed, I've calculated approximate cumulative returns during each presidential administration, using historical annual total returns (including reinvested dividends where the source provides them).</p>
+<p>The figures below are compounded returns, not simple averages.</p>
+<h3>1. Stock performance by presidential administration</h3>
+<p>Approximate cumulative returns, based on calendar-year data. Trump II is partial, through November 3, 2026.</p>
+<div class="table-wrap"><table>
+<tr><th>Stock</th><th>Bush (R) 2001–08</th><th>Obama (D) 2009–16</th><th>Trump I (R) 2017–20</th><th>Biden (D) 2021–24</th><th>Trump II (R) 2025–26*</th></tr>
+<tr><td>MSFT</td><td>'+7%</td><td>'+294%</td><td>'+282%</td><td>'+96%</td><td>'+34%</td></tr>
+<tr><td>NVDA</td><td>'+48%</td><td>'+1,323%</td><td>'+395%</td><td>'+930%</td><td>'+51%</td></tr>
+<tr><td>AMD</td><td>'-84%</td><td>'+425%</td><td>'+709%</td><td>'+32%</td><td>'+301%</td></tr>
+<tr><td>AVGO</td><td>N/A</td><td>'+1,113%</td><td>'+184%</td><td>'+483%</td><td>'+46%</td></tr>
+<tr><td>ORCL</td><td>'-39%</td><td>'+136%</td><td>'+80%</td><td>'+174%</td><td>'-23%</td></tr>
+</table></div>
+<p>Trump II covers 2025 and 2026 year-to-date, not a completed four-year presidency.</p>
+<p class="source-note">Sources: Microsoft; NVIDIA; AMD; Broadcom; Oracle.</p>
+<h3>2. Which party's periods performed better?</h3>
+<p>To make the different-length presidencies comparable, I calculated the average annualized growth rate (CAGR) across the administrations in each party's group.</p>
+<div class="table-wrap"><table>
+<tr><th>Stock</th><th>Democratic periods – average CAGR</th><th>Republican periods – average CAGR</th><th>Better-performing group</th></tr>
+<tr><td>MSFT</td><td>18.5%</td><td>19.3%</td><td>Republican</td></tr>
+<tr><td>NVDA</td><td>59.2%</td><td>26.5%</td><td>Democratic</td></tr>
+<tr><td>AMD</td><td>15.1%</td><td>53.5%</td><td>Republican</td></tr>
+<tr><td>AVGO</td><td>46.0%</td><td>26.2%</td><td>Democratic</td></tr>
+<tr><td>ORCL</td><td>20.0%</td><td>'-1.1%</td><td>Democratic</td></tr>
+</table></div>
+<p>These are equally weighted averages of each administration's annualized returns; AVGO excludes the Bush period because it did not trade under that ticker during that period.</p>
+<h3>3. What does this tell us?</h3>
+<p>Democratic periods performed better for:</p>
+<ul><li>NVDA</li><li>AVGO</li><li>ORCL</li></ul>
+<p>Republican periods performed better for:</p>
+<ul><li>MSFT</li><li>AMD</li></ul>
+<h4>Overall interpretation</h4>
+<p>There is no consistent party winner across these five stocks. Their performance depends heavily on individual company growth, AI demand, semiconductor cycles and market conditions.</p>
+<p>Important methodology note: These are approximate calendar-year compounded returns, not exact returns from January 20 inauguration dates. The annualized party comparison is descriptive, not proof that either party caused the returns. The different number and length of administrations also affect the comparison.</p>
+<p>My recommendation: We should apply this same calculation to all 11 sectors and 55 stock entries. That will give you a much more useful picture of which industries and companies historically performed better during Democratic and Republican administrations.</p></div><a class="back-top" href="#top">Back to top ↑</a></section>
+<section class="sector-section" id="sector-2"><div class="section-kicker">SECTOR 02</div><h2>Communication Services</h2><div class="section-content"><p>I've followed the same structure as the Technology report, including cumulative returns by presidential administration and a Democratic-versus-Republican comparison.</p>
+<h3>1. Business performance and policy catalysts</h3>
+<div class="table-wrap"><table>
+<tr><th>Benchmark stock &amp; ticker</th><th>🟢 Performance under Democrats</th><th>🔴 Performance under Republicans</th><th>Primary policy catalyst</th></tr>
+<tr><td>Alphabet (NASDAQ: GOOGL)</td><td>Strong digital advertising and AI growth; antitrust exposure</td><td>Advertising and AI growth; potential regulatory changes</td><td>Antitrust, AI regulation, digital advertising</td></tr>
+<tr><td>Meta Platforms (NASDAQ: META)</td><td>Advertising and AI expansion; privacy regulation risk</td><td>Advertising growth; potential changes in technology regulation</td><td>Section 230, privacy, social-media regulation</td></tr>
+<tr><td>Netflix (NASDAQ: NFLX)</td><td>Subscription growth and international expansion</td><td>Subscription growth and potentially lower regulatory exposure</td><td>Streaming regulation, content policy</td></tr>
+<tr><td>Walt Disney (NYSE: DIS)</td><td>Media investment and streaming expansion</td><td>Media deregulation opportunities; content-policy uncertainty</td><td>Media ownership, copyright, entertainment regulation</td></tr>
+<tr><td>T-Mobile (NASDAQ: TMUS)</td><td>Broadband investment and telecommunications expansion</td><td>Potential deregulation and spectrum investment</td><td>FCC policy, spectrum allocation, telecommunications rules</td></tr>
+</table></div>
+<h3>2. Stock performance by presidential administration</h3>
+<p>Approximate cumulative price returns, compounded from annual calendar-year returns. These figures exclude dividends and inflation. Trump II includes 2025 and 2026 year-to-date, through November 2–3, 2026, depending on the source.</p>
+<div class="table-wrap"><table>
+<tr><th>Stock</th><th>Bush (R) 2001–08</th><th>Obama (D) 2009–16</th><th>Trump I (R) 2017–20</th><th>Biden (D) 2021–24</th><th>Trump II (R) 2025–26*</th></tr>
+<tr><td>GOOGL</td><td>'+207%*</td><td>'+415%</td><td>'+121%</td><td>'+116%</td><td>'+47%</td></tr>
+<tr><td>META</td><td>N/A</td><td>'+332%*</td><td>'+137%</td><td>'+114%</td><td>'+6%</td></tr>
+<tr><td>NFLX</td><td>'+257%*</td><td>'+2,800%</td><td>'+337%</td><td>'+65%</td><td>'-29%</td></tr>
+<tr><td>DIS</td><td>'-21%</td><td>'+359%</td><td>'+74%</td><td>'-39%</td><td>'+3%</td></tr>
+<tr><td>TMUS</td><td>N/A</td><td>'+189%*</td><td>'+135%</td><td>'+64%</td><td>'-30%</td></tr>
+</table></div>
+<p>Important listing qualifications:</p>
+<ul><li>GOOGL: Bush-period figure uses Google's predecessor GOOG share-price history from 2004, not the full 2001–2008 period.</li><li>META: First publicly traded in 2012; the Obama figure uses available returns from 2013–2016.</li><li>NFLX: Began trading in 2002; Bush figure uses available 2002–2008 returns.</li><li>TMUS: Began trading under the TMUS ticker on May 1, 2013; Obama figure uses the available 2013–2016 period.</li></ul>
+<p>investor.t-mobile.com+1</p>
+<p>Historical annual return sources:</p>
+<p>slickcharts.com+4</p>
+<h3>3. Which party's periods performed better?</h3>
+<p>To compare administrations of different lengths, I calculated average annualized growth rates (CAGR) across the available administrations for each party.</p>
+<div class="table-wrap"><table>
+<tr><th>Stock</th><th>Democratic periods – average CAGR</th><th>Republican periods – average CAGR</th><th>Better-performing group</th></tr>
+<tr><td>GOOGL</td><td>22.0%</td><td>23.5%</td><td>Republican</td></tr>
+<tr><td>META</td><td>32.6%</td><td>13.7%</td><td>Democratic</td></tr>
+<tr><td>NFLX</td><td>32.8%</td><td>15.9%</td><td>Democratic</td></tr>
+<tr><td>DIS</td><td>4.8%</td><td>4.5%</td><td>Democratic</td></tr>
+<tr><td>TMUS</td><td>21.8%</td><td>3.1%</td><td>Democratic</td></tr>
+</table></div>
+<p>These are simple averages of the available administration-level CAGRs, not the return from one continuous Democratic or Republican investment period. Trump II is annualized over its partial period.</p>
+<h3>4. What does this tell us?</h3>
+<p>Democratic periods performed better for:</p>
+<ul><li>META</li><li>NFLX</li><li>DIS</li><li>TMUS</li></ul>
+<p>Republican periods performed better for:</p>
+<ul><li>GOOGL</li></ul>
+<h4>Overall result</h4>
+<p>4 out of 5</p>
+<p>Stocks had a higher average administration-level CAGR during Democratic periods.</p>
+<h4>My interpretation</h4>
+<ul><li>META: Its strong advertising recovery and AI-related rally, particularly in 2023–2024, contributed significantly to its Democratic-period performance.</li><li>NFLX: Its exceptional performance during the Obama years was driven by streaming adoption and international expansion.</li><li>DIS: Its strong Obama-period return was followed by a difficult Biden period, particularly during the streaming and post-pandemic challenges.</li><li>TMUS: Strong growth during the Obama and Trump I periods, but weaker recent performance has reduced its Republican-period average.</li><li>GOOGL: Its performance was relatively balanced across administrations, with the Republican-period average slightly higher.</li></ul>
+<p>Overall conclusion: Communication Services stocks in this sample performed better on average during Democratic administrations, but the result is heavily influenced by Netflix's exceptional Obama-period returns and META's growth. It does not establish that Democratic policies caused the higher returns.</p>
+<p>For consistency, the next sector should use this same method and the same return definitions.</p></div><a class="back-top" href="#top">Back to top ↑</a></section>
+<section class="sector-section" id="sector-3"><div class="section-kicker">SECTOR 03</div><h2>Consumer Discretionary</h2><div class="section-content"><p>Stocks covered: Amazon (AMZN), Tesla (TSLA), Home Depot (HD), McDonald's (MCD), and Booking Holdings (BKNG).</p>
+<p>I’ll use the same comparison periods and format as the Communication Services report. The performance figures are cumulative share-price returns, compounded from calendar-year returns, excluding dividends and inflation. These comparisons show how stocks performed during each administration; they do not establish that a president or political party caused the returns.</p>
+<h3>1. Business and policy factors</h3>
+<div class="table-wrap"><table>
+<tr><th>Benchmark stock &amp; ticker</th><th>🟢 Performance under Democrats – potential drivers</th><th>🔴 Performance under Republicans – potential drivers</th><th>Primary policy catalyst</th></tr>
+<tr><td>Amazon (NASDAQ: AMZN)</td><td>Consumer demand, AWS/cloud growth, digital commerce and technology investment</td><td>Consumer demand, corporate tax policy and tariff exposure</td><td>Corporate taxes, tariffs, consumer spending</td></tr>
+<tr><td>Tesla (NASDAQ: TSLA)</td><td>EV incentives, clean-energy investment and emissions policies</td><td>Potentially reduced EV incentives, deregulation and autonomous-driving support</td><td>EV tax credits, tariffs, emissions rules</td></tr>
+<tr><td>Home Depot (NYSE: HD)</td><td>Housing activity, consumer spending and infrastructure investment</td><td>Tax policy, domestic construction and potential deregulation</td><td>Interest rates, housing policy, tariffs</td></tr>
+<tr><td>McDonald's (NYSE: MCD)</td><td>Consumer spending, employment and demand for value-oriented dining</td><td>Tax policy, consumer spending and labor-cost uncertainty</td><td>Minimum wages, food costs, consumer demand</td></tr>
+<tr><td>Booking Holdings (NASDAQ: BKNG)</td><td>International tourism, consumer travel spending and global mobility</td><td>Travel demand, tax policy and business regulation</td><td>Tourism, taxation, international travel rules</td></tr>
+</table></div>
+<p>These are potential business and policy channels, not evidence that either party consistently benefits the companies.</p>
+<h3>2. Stock performance by presidential administration</h3>
+<p>Approximate cumulative share-price return, with annual returns compounded. Figures rounded to one decimal place.</p>
+<div class="table-wrap"><table>
+<tr><th>Stock</th><th>Bush (R) 2001–08</th><th>Obama (D) 2009–16</th><th>Trump I (R) 2017–20</th><th>Biden (D) 2021–24</th><th>Trump II (R) 2025–26*</th></tr>
+<tr><td>AMZN</td><td>'+229.5%</td><td>'+1,362.3%</td><td>'+334.4%</td><td>'+34.7%</td><td>'+14.3%</td></tr>
+<tr><td>TSLA</td><td>N/A</td><td>'+794.4%*</td><td>'+1,551.1%</td><td>'+71.7%</td><td>'-1.3%</td></tr>
+<tr><td>HD</td><td>'-49.6%</td><td>'+482.4%</td><td>'+98.1%</td><td>'+46.5%</td><td>'-8.6%</td></tr>
+<tr><td>MCD</td><td>'+82.9%</td><td>'+95.7%</td><td>'+76.3%</td><td>'+35.1%</td><td>'-3.3%</td></tr>
+<tr><td>BKNG</td><td>'+835.3%</td><td>'+1,890.6%</td><td>'+51.9%</td><td>'+123.1%</td><td>'-21.7%</td></tr>
+</table></div>
+<p class="source-note">Sources: annual share-price return histories for Amazon</p>
+<p>slickcharts.com</p>
+<p>, Tesla</p>
+<p>slickcharts.com</p>
+<p>, Home Depot</p>
+<p>slickcharts.com</p>
+<p>, McDonald's</p>
+<p>slickcharts.com</p>
+<p>, and Booking Holdings</p>
+<p>slickcharts.com</p>
+<p>.</p>
+<h4>Important data notes</h4>
+<ul><li>*Tesla did not trade during the Bush period. Its Obama-period figure uses the available 2010–2016 annual returns, not a complete 2009–2016 period.</li><li>Booking Holdings' historical series includes the company's earlier Priceline ticker history; the comparison is for the same underlying company.</li><li>*Trump II covers 2025 and 2026 year-to-date, through the November 3–4, 2026 closing data shown on the respective stock pages. It is not a completed presidential term.</li><li>The source calculates annual returns from the previous year-end close to the current year-end close and excludes dividends and inflation.</li></ul>
+<p>slickcharts.com+4</p>
+<h3>3. Which party's periods performed better?</h3>
+<p>For this comparison, I calculate the CAGR for each available presidential period, then take the simple average of the Democratic-period CAGRs and Republican-period CAGRs.</p>
+<div class="table-wrap"><table>
+<tr><th>Stock</th><th>Democratic average CAGR</th><th>Republican average CAGR</th><th>Better-performing group</th></tr>
+<tr><td>AMZN</td><td>23.8%</td><td>22.7%</td><td>Democrats</td></tr>
+<tr><td>TSLA</td><td>25.6%</td><td>50.4%</td><td>Republicans</td></tr>
+<tr><td>HD</td><td>17.3%</td><td>1.9%</td><td>Democrats</td></tr>
+<tr><td>MCD</td><td>8.3%</td><td>7.1%</td><td>Democrats</td></tr>
+<tr><td>BKNG</td><td>33.8%</td><td>10.3%</td><td>Democrats</td></tr>
+</table></div>
+<p>For Tesla, the Republican average excludes Bush because Tesla was not publicly traded during that administration. For the current Trump II period, the CAGR is annualized using the elapsed portion of 2026; it is therefore provisional.</p>
+<h3>4. What does this tell us?</h3>
+<p>Stocks with stronger average CAGR during Democratic administrations:</p>
+<ul><li>AMZN: Slightly higher Democratic-period average, with particularly strong growth during the Obama years.</li><li>HD: Much stronger average during Democratic periods, especially under Obama.</li><li>MCD: Relatively similar averages, with a modest Democratic-period advantage.</li><li>BKNG: Strong Democratic-period average, driven by substantial gains during Obama and Biden.</li></ul>
+<p>Stock with stronger average CAGR during Republican administrations:</p>
+<ul><li>TSLA: Strong Republican-period average, heavily influenced by its extraordinary 2020 performance during Trump's first term.</li></ul>
+<h4>Overall interpretation</h4>
+<ul><li>Democratic administrations had the higher average CAGR for 4 out of 5 stocks in this group.</li><li>Tesla was the exception, with a much higher Republican-period average.</li><li>Amazon's results were relatively close between the two groups.</li><li>Booking and Home Depot showed particularly large differences in their historical period averages.</li></ul>
+<p>These results should not be interpreted as a political investment strategy. Interest rates, economic cycles, company-specific execution, technology adoption, valuations and market conditions can have much greater influence on individual stock returns than the party in power.</p>
+<p>Methodology reminder: These are historical price-return comparisons, not dividend-reinvested total returns. The administration averages are simple averages of each available administration's CAGR, not portfolio returns. For a more complete investment comparison, the next improvement would be to compare each stock against the S&amp;P 500 over the same periods.</p></div><a class="back-top" href="#top">Back to top ↑</a></section>
+<section class="sector-section" id="sector-4"><div class="section-kicker">SECTOR 04</div><h2>Consumer Staples</h2><div class="section-content"><p>Stocks covered: Walmart (WMT), Costco (COST), Procter &amp; Gamble (PG), Coca-Cola (KO), and PepsiCo (PEP).</p>
+<p>The comparison uses the same methodology as the previous sectors: calendar-year share-price returns compounded across each administration's corresponding years. Returns exclude dividends and inflation.</p>
+<h3>1. Business and policy factors</h3>
+<div class="table-wrap"><table>
+<tr><th>Benchmark stock &amp; ticker</th><th>🟢 Performance under Democrats – potential drivers</th><th>🔴 Performance under Republicans – potential drivers</th><th>Primary policy catalyst</th></tr>
+<tr><td>Walmart (NYSE: WMT)</td><td>Defensive consumer demand; inflation and wage pressures</td><td>Defensive demand; potential import tariff and sourcing pressures</td><td>Trade policy, inflation, labor costs</td></tr>
+<tr><td>Costco (NASDAQ: COST)</td><td>Membership growth and value-focused consumer spending</td><td>Value-focused demand; import and supply-chain costs</td><td>Tariffs, consumer purchasing power</td></tr>
+<tr><td>Procter &amp; Gamble (NYSE: PG)</td><td>Stable demand; input-cost and environmental compliance pressures</td><td>Stable demand; potential benefits from lower regulatory burdens</td><td>Environmental rules, manufacturing costs</td></tr>
+<tr><td>Coca-Cola (NYSE: KO)</td><td>Defensive demand and international market growth</td><td>Defensive demand; potential trade and currency exposure</td><td>International trade, sugar taxes, packaging regulation</td></tr>
+<tr><td>PepsiCo (NASDAQ: PEP)</td><td>Stable demand; health and nutrition regulation exposure</td><td>Stable demand; potential changes in food regulation</td><td>Food labelling, agricultural costs, packaging rules</td></tr>
+</table></div>
+<h3>2. Stock performance by presidential administration</h3>
+<p>Approximate cumulative share-price returns, compounded from annual returns.</p>
+<div class="table-wrap"><table>
+<tr><th>Stock</th><th>Bush (R) 2001–08</th><th>Obama (D) 2009–16</th><th>Trump I (R) 2017–20</th><th>Biden (D) 2021–24</th><th>Trump II (R) 2025–26*</th></tr>
+<tr><td>WMT</td><td>'+5.5%</td><td>'+23.3%</td><td>'+108.6%</td><td>'+88.0%</td><td>'+38.2%</td></tr>
+<tr><td>COST</td><td>'+31.5%</td><td>'+205.0%</td><td>'+135.3%</td><td>'+143.2%</td><td>'+11.2%</td></tr>
+<tr><td>PG</td><td>'+57.6%</td><td>'+36.0%</td><td>'+65.5%</td><td>'+20.5%</td><td>'-0.2%</td></tr>
+<tr><td>KO</td><td>'-25.7%</td><td>'+83.2%</td><td>'+32.3%</td><td>'+13.5%</td><td>'+52.3%</td></tr>
+<tr><td>PEP</td><td>'+10.5%</td><td>'+91.0%</td><td>'+41.7%</td><td>'+2.5%</td><td>'-9.7%</td></tr>
+</table></div>
+<p class="source-note">Sources: annual historical return data from Slickcharts for Walmart</p>
+<p>slickcharts.com</p>
+<p>, Costco</p>
+<p>slickcharts.com</p>
+<p>, Procter &amp; Gamble</p>
+<p>slickcharts.com</p>
+<p>, Coca-Cola</p>
+<p>slickcharts.com</p>
+<p>, and PepsiCo</p>
+<p>slickcharts.com</p>
+<p>.</p>
+<p>*Trump II includes full-year 2025 and 2026 year-to-date through November 3, 2026 (PG data through November 4). It is a partial administration period, not a completed term. The source calculates annual returns from the previous year-end closing price to the current year-end or latest available closing price; dividends and inflation are excluded.</p>
+<p>slickcharts.com+4</p>
+<h3>3. Which party's periods performed better?</h3>
+<p>The following compares the average annualized CAGR of the available Democratic and Republican administrations. Trump II is included using its partial-period annualized CAGR.</p>
+<div class="table-wrap"><table>
+<tr><th>Stock</th><th>Democratic average CAGR</th><th>Republican average CAGR</th><th>Better-performing group</th></tr>
+<tr><td>WMT</td><td>9.9%</td><td>13.4%</td><td>Republicans</td></tr>
+<tr><td>COST</td><td>19.9%</td><td>11.1%</td><td>Democrats</td></tr>
+<tr><td>PG</td><td>4.3%</td><td>6.4%</td><td>Republicans</td></tr>
+<tr><td>KO</td><td>5.5%</td><td>9.8%</td><td>Republicans</td></tr>
+<tr><td>PEP</td><td>4.5%</td><td>1.7%</td><td>Democrats</td></tr>
+</table></div>
+<h3>4. What does this tell us?</h3>
+<p>Stocks with stronger average CAGR during Democratic administrations:</p>
+<ul><li>COST: Stronger Democratic-period average, with substantial gains under both Obama and Biden.</li><li>PEP: Higher Democratic-period average, mainly supported by its performance under Obama.</li></ul>
+<p>Stocks with stronger average CAGR during Republican administrations:</p>
+<ul><li>WMT: Higher Republican-period average, with strong gains during Trump's first term and the current partial period.</li><li>PG: Higher Republican-period average, although its performance varied considerably between administrations.</li><li>KO: Higher Republican-period average, with the current partial Trump II period contributing significantly to the result.</li></ul>
+<h4>Overall interpretation</h4>
+<ul><li>Republican administrations had the higher average CAGR for 3 out of 5 stocks.</li><li>Democratic administrations performed better for Costco and PepsiCo.</li><li>Walmart and Coca-Cola had particularly strong returns in the current partial Trump II period.</li><li>Costco was the strongest performer in the Obama and Biden periods among these five stocks.</li></ul>
+<p>Important: Consumer Staples companies generally sell essential products, so their earnings can be more resilient during economic uncertainty. However, their share prices remain sensitive to inflation, interest rates, input costs, currency movements and valuations. These historical comparisons do not demonstrate that either political party caused the returns.</p>
+<p>Methodology note: Calendar-year periods are used as an approximation of presidential administrations, rather than exact inauguration-to-inauguration dates. CAGRs are calculated separately for each administration and then averaged equally within each political group. Trump II is annualized from 2025 plus the available portion of 2026, so its contribution is provisional.</p></div><a class="back-top" href="#top">Back to top ↑</a></section>
+<section class="sector-section" id="sector-5"><div class="section-kicker">SECTOR 05</div><h2>Healthcare</h2><div class="section-content"><p>Stocks covered: Eli Lilly (LLY), Johnson &amp; Johnson (JNJ), UnitedHealth Group (UNH), Abbott Laboratories (ABT), and Merck (MRK).</p>
+<p>The comparison follows the same approach as the previous sectors: cumulative share-price returns compounded from calendar-year returns, excluding dividends and inflation.</p>
+<h3>1. Business and policy factors</h3>
+<div class="table-wrap"><table>
+<tr><th>Benchmark stock &amp; ticker</th><th>🟢 Performance under Democrats – potential drivers</th><th>🔴 Performance under Republicans – potential drivers</th><th>Primary policy catalyst</th></tr>
+<tr><td>Eli Lilly (NYSE: LLY)</td><td>Strong pharmaceutical demand; drug-price negotiation exposure</td><td>Strong pharmaceutical demand; pricing and FDA-policy uncertainty</td><td>Medicare drug negotiations, obesity-drug coverage</td></tr>
+<tr><td>Johnson &amp; Johnson (NYSE: JNJ)</td><td>Medical demand and healthcare investment</td><td>Medical demand; potential changes in regulatory oversight</td><td>FDA regulation, healthcare spending</td></tr>
+<tr><td>UnitedHealth Group (NYSE: UNH)</td><td>Public healthcare funding and Medicare Advantage exposure; reimbursement risk</td><td>Potential changes to ACA and Medicare funding; reimbursement uncertainty</td><td>Medicare Advantage, ACA and insurance regulation</td></tr>
+<tr><td>Abbott Laboratories (NYSE: ABT)</td><td>Medical-device and diagnostics demand</td><td>Medical-device and diagnostics demand; regulatory changes</td><td>FDA approvals, healthcare funding</td></tr>
+<tr><td>Merck (NYSE: MRK)</td><td>Pharmaceutical innovation and research funding</td><td>Pharmaceutical innovation; pricing and regulatory uncertainty</td><td>Drug pricing, FDA policy, pharmaceutical research</td></tr>
+</table></div>
+<h3>2. Stock performance by presidential administration</h3>
+<p>Approximate cumulative share-price returns, compounded from annual returns.</p>
+<div class="table-wrap"><table>
+<tr><th>Stock</th><th>Bush (R) 2001–08</th><th>Obama (D) 2009–16</th><th>Trump I (R) 2017–20</th><th>Biden (D) 2021–24</th><th>Trump II (R) 2025–26*</th></tr>
+<tr><td>LLY</td><td>'-56.7%</td><td>'+82.6%</td><td>'+129.6%</td><td>'+357.3%</td><td>'+83.7%</td></tr>
+<tr><td>JNJ</td><td>'+13.9%</td><td>'+92.6%</td><td>'+36.6%</td><td>'-8.1%</td><td>'+91.1%</td></tr>
+<tr><td>UNH</td><td>'+73.4%</td><td>'+501.6%</td><td>'+119.1%</td><td>'+44.3%</td><td>'-19.1%</td></tr>
+<tr><td>ABT</td><td>'+17.8%</td><td>'+50.0%</td><td>'+185.1%</td><td>'+3.3%</td><td>'-3.3%</td></tr>
+<tr><td>MRK</td><td>'-67.5%</td><td>'+93.6%</td><td>'+38.9%</td><td>'+27.5%</td><td>'+45.4%</td></tr>
+</table></div>
+<p class="source-note">Sources: annual historical returns from Slickcharts for Eli Lilly</p>
+<p>slickcharts.com</p>
+<p>, Johnson &amp; Johnson</p>
+<p>slickcharts.com</p>
+<p>, UnitedHealth Group</p>
+<p>slickcharts.com</p>
+<p>, Abbott Laboratories</p>
+<p>slickcharts.com</p>
+<p>, and Merck</p>
+<p>slickcharts.com</p>
+<p>.</p>
+<h4>Data notes</h4>
+<ul><li>Trump II includes full-year 2025 plus 2026 year-to-date. The latest source cutoffs are November 4 for LLY, JNJ and UNH, and November 3 for ABT and MRK.</li><li>The annual-return source calculates returns using the previous year-end closing price and the current year-end or latest available closing price. Dividends and inflation are excluded.</li></ul>
+<p>slickcharts.com+4</p>
+<h3>3. Which party's periods performed better?</h3>
+<p>The table compares the average CAGR of the available Democratic administrations with the average CAGR of the Republican administrations. Trump II is included using its partial-period annualized CAGR.</p>
+<div class="table-wrap"><table>
+<tr><th>Stock</th><th>Democratic average CAGR</th><th>Republican average CAGR</th><th>Better-performing group</th></tr>
+<tr><td>LLY</td><td>27.0%</td><td>17.4%</td><td>Democrats</td></tr>
+<tr><td>JNJ</td><td>3.2%</td><td>17.3%</td><td>Republicans</td></tr>
+<tr><td>UNH</td><td>17.4%</td><td>6.0%</td><td>Democrats</td></tr>
+<tr><td>ABT</td><td>3.0%</td><td>10.1%</td><td>Republicans</td></tr>
+<tr><td>MRK</td><td>7.4%</td><td>6.0%</td><td>Democrats</td></tr>
+</table></div>
+<h3>4. What does this tell us?</h3>
+<p>Stocks with stronger average CAGR during Democratic administrations:</p>
+<ul><li>LLY: Particularly strong performance during Biden's term, supported by major growth in its pharmaceutical business.</li><li>UNH: Very strong performance during Obama's term, although its more recent performance has been weaker.</li><li>MRK: A modest Democratic-period advantage, with positive returns during both Obama and Biden.</li></ul>
+<p>Stocks with stronger average CAGR during Republican administrations:</p>
+<ul><li>JNJ: Its Republican-period average is higher, partly because of its strong 2025–26 performance.</li><li>ABT: Its Republican-period average is higher, driven largely by its gains during Trump's first term.</li></ul>
+<h4>Overall interpretation</h4>
+<ul><li>Democratic administrations had the higher average CAGR for 3 out of 5 stocks.</li><li>Eli Lilly was the strongest Democratic-period performer in this group.</li><li>Johnson &amp; Johnson and Abbott had stronger Republican-period averages.</li><li>Healthcare companies can respond very differently to the same political environment because pharmaceutical pricing, insurance reimbursement, medical-device regulation and drug approvals affect their businesses differently.</li></ul>
+<p>Important: Healthcare stock performance is also influenced by clinical-trial results, drug launches, patent expirations, acquisitions, lawsuits, reimbursement decisions and company-specific earnings. These comparisons do not establish that a political party caused the returns.</p>
+<p>Methodology: Calendar-year returns approximate presidential administrations rather than exact inauguration-to-inauguration periods. Each administration's CAGR is calculated separately; the Democratic and Republican averages are simple averages of their respective administration CAGRs. Trump II is annualized from the available 2025–26 period, so it is provisional.</p></div><a class="back-top" href="#top">Back to top ↑</a></section>
+<section class="sector-section" id="sector-6"><div class="section-kicker">SECTOR 06</div><h2>Financials</h2><div class="section-content"><p>Stocks covered: JPMorgan Chase (JPM), Bank of America (BAC), Goldman Sachs (GS), Morgan Stanley (MS), and Visa (V).</p>
+<p>I’ll keep the same comparison periods and format. Returns are cumulative share-price returns compounded from calendar-year data, excluding dividends and inflation. Financial stocks are particularly sensitive to interest rates, credit conditions, capital-market activity and banking regulation.</p>
+<h3>1. Business and policy factors</h3>
+<div class="table-wrap"><table>
+<tr><th>Benchmark stock &amp; ticker</th><th>🟢 Performance under Democrats – potential drivers</th><th>🔴 Performance under Republicans – potential drivers</th><th>Primary policy catalyst</th></tr>
+<tr><td>JPMorgan Chase (NYSE: JPM)</td><td>Strong banking and payments activity; tighter regulatory scrutiny</td><td>Potential deregulation and favourable capital requirements</td><td>Bank capital rules, mergers, interest rates</td></tr>
+<tr><td>Bank of America (NYSE: BAC)</td><td>Benefits from consumer credit and economic growth; regulatory exposure</td><td>Potentially favourable banking deregulation</td><td>Interest rates, capital requirements</td></tr>
+<tr><td>Goldman Sachs (NYSE: GS)</td><td>Capital markets and investment banking activity; stricter oversight</td><td>Potentially favourable M&amp;A and trading regulation</td><td>SEC regulation, M&amp;A policy</td></tr>
+<tr><td>Morgan Stanley (NYSE: MS)</td><td>Wealth management and capital markets growth</td><td>Capital markets activity and potential deregulation</td><td>Investment banking rules, wealth management</td></tr>
+<tr><td>Visa (NYSE: V)</td><td>Digital payments growth; interchange-fee scrutiny</td><td>Digital payments growth; potential changes in financial regulation</td><td>Payment regulation, interchange fees</td></tr>
+</table></div>
+<h3>2. Stock performance by presidential administration</h3>
+<p>Approximate cumulative share-price returns, compounded from annual returns.</p>
+<div class="table-wrap"><table>
+<tr><th>Stock</th><th>Bush (R) 2001–08</th><th>Obama (D) 2009–16</th><th>Trump I (R) 2017–20</th><th>Biden (D) 2021–24</th><th>Trump II (R) 2025–26*</th></tr>
+<tr><td>JPM</td><td>'-30.6%</td><td>'+173.6%</td><td>'+47.2%</td><td>'+88.7%</td><td>'+46.9%</td></tr>
+<tr><td>BAC</td><td>'-38.6%</td><td>'+57.0%</td><td>'+37.1%</td><td>'+45.0%</td><td>'+13.0%</td></tr>
+<tr><td>GS</td><td>'-21.1%</td><td>'+183.8%</td><td>'+10.1%</td><td>'+117.1%</td><td>'+62.0%</td></tr>
+<tr><td>MS</td><td>'-79.8%</td><td>'+163.4%</td><td>'+62.2%</td><td>'+83.4%</td><td>'+54.3%</td></tr>
+<tr><td>V</td><td>N/A</td><td>'+495.1%</td><td>'+180.4%</td><td>'+44.5%</td><td>'+38.1%</td></tr>
+</table></div>
+<p class="source-note">Sources: annual historical return data from Slickcharts for JPMorgan Chase</p>
+<p>slickcharts.com</p>
+<p>, Bank of America</p>
+<p>slickcharts.com</p>
+<p>, Goldman Sachs</p>
+<p>slickcharts.com</p>
+<p>, Morgan Stanley</p>
+<p>slickcharts.com</p>
+<p>, and Visa</p>
+<p>slickcharts.com</p>
+<p>.</p>
+<h4>Data notes</h4>
+<ul><li>Visa did not trade publicly for the full Bush administration period, so its Bush return is marked N/A.</li><li>Trump II includes full-year 2025 and 2026 year-to-date. The latest available data are through November 4, 2026, except BAC, which is through November 3.</li><li>Annual returns are based on the previous year-end closing price and the current year-end or latest available closing price. Dividends and inflation are excluded.</li></ul>
+<p>slickcharts.com+4</p>
+<h3>3. Which party's periods performed better?</h3>
+<p>The following compares the average CAGR of the available Democratic administrations with the average CAGR of Republican administrations. Trump II is included using its partial-period annualized CAGR.</p>
+<div class="table-wrap"><table>
+<tr><th>Stock</th><th>Democratic average CAGR</th><th>Republican average CAGR</th><th>Better-performing group</th></tr>
+<tr><td>JPM</td><td>15.3%</td><td>9.6%</td><td>Democrats</td></tr>
+<tr><td>BAC</td><td>7.8%</td><td>3.0%</td><td>Democrats</td></tr>
+<tr><td>GS</td><td>17.7%</td><td>9.8%</td><td>Democrats</td></tr>
+<tr><td>MS</td><td>14.6%</td><td>7.1%</td><td>Democrats</td></tr>
+<tr><td>V</td><td>17.3%</td><td>24.3%</td><td>Republicans</td></tr>
+</table></div>
+<p>Visa's Republican average excludes Bush because it was not publicly traded during most of that period.</p>
+<h3>4. What does this tell us?</h3>
+<p>Stocks with stronger average CAGR during Democratic administrations:</p>
+<ul><li>JPM: Stronger average during Democratic periods, with particularly strong gains under Obama and Biden.</li><li>BAC: Higher Democratic-period average, although returns were positive under both parties.</li><li>GS: Strong Democratic-period average, driven by strong returns during Obama and Biden.</li><li>MS: Stronger Democratic-period average, despite substantial losses during the Bush years.</li></ul>
+<p>Stock with stronger average CAGR during Republican administrations:</p>
+<ul><li>V: Higher Republican-period average, supported by strong performance during Trump's first term and the current partial period.</li></ul>
+<h4>Overall interpretation</h4>
+<ul><li>Democratic administrations had the higher average CAGR for 4 out of 5 stocks.</li><li>JPMorgan, Goldman Sachs and Morgan Stanley had particularly strong Democratic-period averages.</li><li>Visa was the exception, with stronger Republican-period averages.</li><li>Financial companies respond differently to interest rates, economic growth, lending activity, investment banking volumes and regulatory changes.</li></ul>
+<p>Important: These historical comparisons do not establish that a political party caused the returns. The 2008 financial crisis, Federal Reserve policy, credit cycles, market valuations and company-specific performance are important factors.</p>
+<p>Methodology: Calendar-year returns approximate presidential administrations rather than exact inauguration-to-inauguration dates. Each administration's CAGR is calculated separately, and the Democratic and Republican figures are simple averages of available administration CAGRs. Trump II is annualized using the available 2025–26 period and is provisional.</p></div><a class="back-top" href="#top">Back to top ↑</a></section>
+<section class="sector-section" id="sector-7"><div class="section-kicker">SECTOR 07</div><h2>Energy</h2><div class="section-content"><p>Stocks covered: Exxon Mobil (XOM), Chevron (CVX), ConocoPhillips (COP), First Solar (FSLR), and NextEra Energy (NEE).</p>
+<p>This sector combines traditional oil and gas companies with renewable-energy businesses. Their policy sensitivities differ: fossil-fuel producers are affected by drilling, leasing and permitting policies, while renewable-energy companies are more exposed to clean-energy tax credits, subsidies and electricity-grid investment.</p>
+<p>The comparison follows the previous sectors: cumulative share-price returns compounded from calendar-year returns, excluding dividends and inflation.</p>
+<h3>1. Business and policy factors</h3>
+<div class="table-wrap"><table>
+<tr><th>Benchmark stock &amp; ticker</th><th>🟢 Performance under Democrats – potential drivers</th><th>🔴 Performance under Republicans – potential drivers</th><th>Primary policy catalyst</th></tr>
+<tr><td>Exxon Mobil (NYSE: XOM)</td><td>Mixed; oil demand remains strong, but emissions regulation can increase costs</td><td>Potentially favourable drilling, permitting and fossil-fuel policies</td><td>Oil production, drilling permits, emissions regulation</td></tr>
+<tr><td>Chevron (NYSE: CVX)</td><td>Mixed; global oil demand and LNG remain important</td><td>Potentially favourable domestic production and permitting</td><td>Oil and gas regulation, LNG exports</td></tr>
+<tr><td>ConocoPhillips (NYSE: COP)</td><td>Benefits from global energy demand; environmental-policy exposure</td><td>Potentially favourable exploration and production policies</td><td>Federal leasing, drilling permits</td></tr>
+<tr><td>First Solar (NASDAQ: FSLR)</td><td>Potentially strong support from renewable-energy incentives</td><td>Greater uncertainty around renewable subsidies and tax credits</td><td>IRA tax credits, renewable-energy policy</td></tr>
+<tr><td>NextEra Energy (NYSE: NEE)</td><td>Renewable investment and clean-energy incentives</td><td>Greater uncertainty around renewable incentives; electricity-demand growth remains supportive</td><td>Clean-energy credits, grid investment</td></tr>
+</table></div>
+<h3>2. Stock performance by presidential administration</h3>
+<p>Approximate cumulative share-price returns, compounded from annual returns.</p>
+<div class="table-wrap"><table>
+<tr><th>Stock</th><th>Bush (R) 2001–08</th><th>Obama (D) 2009–16</th><th>Trump I (R) 2017–20</th><th>Biden (D) 2021–24</th><th>Trump II (R) 2025–26*</th></tr>
+<tr><td>XOM</td><td>'+83.7%</td><td>'+13.1%</td><td>'-54.3%</td><td>'+161.0%</td><td>'+57.4%</td></tr>
+<tr><td>CVX</td><td>'+75.2%</td><td>'+59.1%</td><td>'-28.3%</td><td>'+71.5%</td><td>'+55.5%</td></tr>
+<tr><td>COP</td><td>'+82.1%</td><td>'+27.0%</td><td>'-20.3%</td><td>'+148.0%</td><td>'+45.6%</td></tr>
+<tr><td>FSLR</td><td>N/A</td><td>'-76.7%</td><td>'+208.3%</td><td>'+78.2%</td><td>'+10.4%</td></tr>
+<tr><td>NEE</td><td>'+40.3%</td><td>'+137.4%</td><td>'+158.4%</td><td>'-7.1%</td><td>'+17.6%</td></tr>
+</table></div>
+<p class="source-note">Sources: annual historical share-price returns from Slickcharts for Exxon Mobil</p>
+<p>slickcharts.com</p>
+<p>, Chevron</p>
+<p>slickcharts.com</p>
+<p>, ConocoPhillips</p>
+<p>slickcharts.com</p>
+<p>, First Solar</p>
+<p>slickcharts.com</p>
+<p>, and NextEra Energy</p>
+<p>slickcharts.com</p>
+<p>.</p>
+<h4>Data notes</h4>
+<ul><li>First Solar did not trade publicly during the full Bush administration, so its Bush-period return is N/A.</li><li>ConocoPhillips was formed in 2002 through a merger. Its earlier historical return series should not be interpreted as a complete record for today's company.</li><li>Trump II includes full-year 2025 and 2026 year-to-date, with data through November 4 for XOM and FSLR, and November 3 for CVX, COP and NEE.</li><li>Annual returns are based on the previous year-end closing price and the current year-end or latest available closing price. Dividends and inflation are excluded.</li></ul>
+<p>slickcharts.com+4</p>
+<h3>3. Which party's periods performed better?</h3>
+<p>The following compares the average CAGR of available Democratic administrations with the average CAGR of Republican administrations. Trump II is included using its partial-period annualized CAGR.</p>
+<div class="table-wrap"><table>
+<tr><th>Stock</th><th>Democratic average CAGR</th><th>Republican average CAGR</th><th>Better-performing group</th></tr>
+<tr><td>XOM</td><td>14.3%</td><td>6.0%</td><td>Democrats</td></tr>
+<tr><td>CVX</td><td>10.2%</td><td>8.8%</td><td>Democrats</td></tr>
+<tr><td>COP</td><td>14.3%</td><td>8.3%</td><td>Democrats</td></tr>
+<tr><td>FSLR</td><td>'-0.6%</td><td>19.0%</td><td>Republicans</td></tr>
+<tr><td>NEE</td><td>4.8%</td><td>13.4%</td><td>Republicans</td></tr>
+</table></div>
+<p>FSLR's Republican average excludes Bush because the company was not publicly traded during that administration.</p>
+<h3>4. What does this tell us?</h3>
+<p>Stocks with stronger average CAGR during Democratic administrations:</p>
+<ul><li>XOM: Stronger Democratic-period average, mainly because of its substantial gains during Biden's term.</li><li>CVX: Slightly higher Democratic-period average, despite strong returns during the current Trump II period.</li><li>COP: Stronger Democratic-period average, with particularly strong gains during Biden's term.</li></ul>
+<p>Stocks with stronger average CAGR during Republican administrations:</p>
+<ul><li>FSLR: Stronger Republican-period average, driven by substantial gains during Trump's first term.</li><li>NEE: Higher Republican-period average, supported by strong performance under Trump I and the current partial period.</li></ul>
+<h4>Overall interpretation</h4>
+<ul><li>Democratic administrations had the higher average CAGR for 3 out of 5 stocks.</li><li>Traditional oil and gas companies XOM, CVX and COP performed better on this calculation during Democratic periods.</li><li>Renewable-energy companies FSLR and NEE performed better during Republican periods in this historical sample.</li><li>This result is a reminder that energy-stock performance is not determined by clean-energy or fossil-fuel policy alone.</li></ul>
+<h4>Important factors to consider</h4>
+<ul><li>Global crude-oil and natural-gas prices.</li><li>OPEC production decisions and geopolitical conflicts.</li><li>Energy supply and demand.</li><li>Interest rates and capital expenditure.</li><li>Renewable-energy tax credits and subsidies.</li><li>Electricity consumption, grid expansion and battery-storage investment.</li></ul>
+<p>Methodology: Calendar-year returns approximate presidential administrations rather than exact inauguration-to-inauguration dates. Each administration's CAGR is calculated separately; the Democratic and Republican figures are simple averages of the available administration CAGRs. Trump II is annualized using the available 2025–26 period and is provisional. These comparisons do not establish that a political party caused the returns.</p></div><a class="back-top" href="#top">Back to top ↑</a></section>
+<section class="sector-section" id="sector-8"><div class="section-kicker">SECTOR 08</div><h2>Industrials</h2><div class="section-content"><p>Stocks covered: Caterpillar (CAT), GE Aerospace (GE), Honeywell (HON), Lockheed Martin (LMT), and Eaton (ETN).</p>
+<p>The Industrials sector includes construction equipment, aerospace, defence, automation and electrical infrastructure businesses. Their performance can be influenced by government infrastructure spending, defence budgets, manufacturing investment, tariffs and electricity demand.</p>
+<p>The comparison follows the same methodology as the previous sectors: cumulative share-price returns compounded from calendar-year returns, excluding dividends and inflation.</p>
+<h3>1. Business and policy factors</h3>
+<div class="table-wrap"><table>
+<tr><th>Benchmark stock &amp; ticker</th><th>🟢 Performance under Democrats – potential drivers</th><th>🔴 Performance under Republicans – potential drivers</th><th>Primary policy catalyst</th></tr>
+<tr><td>Caterpillar (NYSE: CAT)</td><td>Infrastructure spending and construction investment</td><td>Domestic manufacturing, infrastructure and mining investment</td><td>Infrastructure spending, tariffs, reshoring</td></tr>
+<tr><td>GE Aerospace (NYSE: GE)</td><td>Commercial aviation and industrial investment</td><td>Defence procurement and aviation demand</td><td>Defence spending, aerospace regulation</td></tr>
+<tr><td>Honeywell (NASDAQ: HON)</td><td>Automation, clean-energy infrastructure and industrial investment</td><td>Aerospace, manufacturing and industrial automation</td><td>Manufacturing incentives, defence spending</td></tr>
+<tr><td>Lockheed Martin (NYSE: LMT)</td><td>Defence procurement and international security spending</td><td>Defence spending and military modernisation</td><td>Defence budgets, military contracts</td></tr>
+<tr><td>Eaton (NYSE: ETN)</td><td>Electricity-grid upgrades and renewable infrastructure</td><td>Data-centre electricity demand and domestic industrial investment</td><td>Grid investment, manufacturing and energy policy</td></tr>
+</table></div>
+<h3>2. Stock performance by presidential administration</h3>
+<p>Approximate cumulative share-price returns, compounded from annual returns.</p>
+<div class="table-wrap"><table>
+<tr><th>Stock</th><th>Bush (R) 2001–08</th><th>Obama (D) 2009–16</th><th>Trump I (R) 2017–20</th><th>Biden (D) 2021–24</th><th>Trump II (R) 2025–26*</th></tr>
+<tr><td>CAT</td><td>'+88.8%</td><td>'+107.6%</td><td>'+96.3%</td><td>'+99.3%</td><td>'+69.1%</td></tr>
+<tr><td>GE</td><td>'-66.2%</td><td>'+95.1%</td><td>'-64.5%</td><td>'+209.8%</td><td>'+97.5%</td></tr>
+<tr><td>HON</td><td>'-30.6%</td><td>'+254.7%</td><td>'+91.6%</td><td>'+6.2%</td><td>'+0.3%</td></tr>
+<tr><td>LMT</td><td>'+147.7%</td><td>'+197.3%</td><td>'+42.0%</td><td>'+36.9%</td><td>'+22.5%</td></tr>
+<tr><td>ETN</td><td>'+52.4%</td><td>'+169.9%</td><td>'+79.1%</td><td>'+176.3%</td><td>'+18.0%</td></tr>
+</table></div>
+<p class="source-note">Sources: annual historical return data from Slickcharts for Caterpillar</p>
+<p>slickcharts.com</p>
+<p>, GE Aerospace</p>
+<p>slickcharts.com</p>
+<p>, Honeywell</p>
+<p>slickcharts.com</p>
+<p>, Lockheed Martin</p>
+<p>slickcharts.com</p>
+<p>, and Eaton</p>
+<p>slickcharts.com</p>
+<p>.</p>
+<h4>Important data notes</h4>
+<ul><li>GE's historical ticker series includes the former General Electric conglomerate. GE Aerospace became a standalone company in April 2024, following the separation of GE Vernova. Earlier returns therefore are not a pure standalone GE Aerospace investment history.</li><li>Trump II includes full-year 2025 and 2026 year-to-date. The data cutoffs are November 4 for GE and LMT, November 3 for HON and ETN, and November 2 for CAT.</li><li>Returns are calculated from the previous year-end closing price to the current year-end or latest available closing price. Dividends and inflation are excluded.</li></ul>
+<p>slickcharts.com+4</p>
+<h3>3. Which party's periods performed better?</h3>
+<p>The following compares the average CAGR of the available Democratic administrations with the average CAGR of Republican administrations. Trump II is included using its partial-period annualized CAGR.</p>
+<div class="table-wrap"><table>
+<tr><th>Stock</th><th>Democratic average CAGR</th><th>Republican average CAGR</th><th>Better-performing group</th></tr>
+<tr><td>CAT</td><td>14.2%</td><td>19.9%</td><td>Republicans</td></tr>
+<tr><td>GE</td><td>20.7%</td><td>3.1%</td><td>Democrats</td></tr>
+<tr><td>HON</td><td>9.3%</td><td>4.5%</td><td>Democrats</td></tr>
+<tr><td>LMT</td><td>11.4%</td><td>10.9%</td><td>Democrats</td></tr>
+<tr><td>ETN</td><td>21.1%</td><td>10.2%</td><td>Democrats</td></tr>
+</table></div>
+<h3>4. What does this tell us?</h3>
+<p>Stocks with stronger average CAGR during Democratic administrations:</p>
+<ul><li>GE: Stronger Democratic-period average, particularly due to its substantial gains during Biden's term. However, historical corporate restructuring affects comparability.</li><li>HON: Stronger Democratic-period average, driven mainly by its performance during Obama's administration.</li><li>LMT: Slightly higher Democratic-period average, although the difference between the two groups is small.</li><li>ETN: Stronger Democratic-period average, supported by significant gains during Biden's term.</li></ul>
+<p>Stock with stronger average CAGR during Republican administrations:</p>
+<ul><li>CAT: Higher Republican-period average, supported by strong gains during Trump's first term and the current partial term.</li></ul>
+<h4>Overall interpretation</h4>
+<ul><li>Democratic administrations had the higher average CAGR for 4 out of 5 stocks.</li><li>Eaton was one of the strongest performers during the Biden period.</li><li>Caterpillar performed better on average during Republican periods.</li><li>Lockheed Martin's results were relatively close between the two political groups.</li></ul>
+<h4>Important factors to consider</h4>
+<ul><li>Federal infrastructure and construction spending.</li><li>Defence budgets and military procurement.</li><li>Manufacturing incentives and domestic reshoring.</li><li>Commercial aircraft demand and airline investment.</li><li>Data-centre construction and electricity-grid expansion.</li><li>Interest rates, industrial production and global economic growth.</li></ul>
+<p>These comparisons do not demonstrate that either political party caused the returns. Industrial companies have long order cycles, international operations and significant exposure to economic conditions beyond US government policy.</p>
+<p>Methodology: Calendar-year returns approximate presidential administrations rather than exact inauguration-to-inauguration dates. Each administration's CAGR is calculated separately, then averaged equally within each political group. Trump II is annualized using the available 2025–26 period and is provisional. GE's historical series includes its predecessor conglomerate, so its results should be interpreted with particular caution.</p></div><a class="back-top" href="#top">Back to top ↑</a></section>
+<section class="sector-section" id="sector-9"><div class="section-kicker">SECTOR 09</div><h2>Materials</h2><div class="section-content"><p>Stocks covered: Freeport-McMoRan (FCX), Newmont (NEM), Linde (LIN), Nucor (NUE), and Albemarle (ALB).</p>
+<p>The Materials sector includes mining, precious metals, industrial gases, steel and lithium. Its performance is influenced by commodity prices, global industrial demand, infrastructure spending, trade tariffs, mining regulations and the energy transition.</p>
+<p>The comparison uses the same methodology as the previous sectors: cumulative share-price returns compounded from calendar-year returns, excluding dividends and inflation.</p>
+<h3>1. Business and policy factors</h3>
+<div class="table-wrap"><table>
+<tr><th>Benchmark stock &amp; ticker</th><th>🟢 Performance under Democrats – potential drivers</th><th>🔴 Performance under Republicans – potential drivers</th><th>Primary policy catalyst</th></tr>
+<tr><td>Freeport-McMoRan (NYSE: FCX)</td><td>Copper demand from electrification and renewable infrastructure</td><td>Domestic mining, infrastructure and industrial demand</td><td>Mining permits, copper demand, trade tariffs</td></tr>
+<tr><td>Newmont (NYSE: NEM)</td><td>Gold demand and inflation uncertainty</td><td>Gold demand and inflation uncertainty</td><td>Gold prices, mining permits, monetary policy</td></tr>
+<tr><td>Linde (NASDAQ: LIN)</td><td>Industrial gases for clean-energy and manufacturing projects</td><td>Domestic industrial production and manufacturing investment</td><td>Industrial investment, hydrogen incentives</td></tr>
+<tr><td>Nucor (NYSE: NUE)</td><td>Infrastructure and domestic steel demand</td><td>Potential benefits from steel tariffs and domestic manufacturing protection</td><td>Steel tariffs, infrastructure, reshoring</td></tr>
+<tr><td>Albemarle (NYSE: ALB)</td><td>EV battery demand and lithium incentives</td><td>Domestic critical-mineral supply chains and tariff protection</td><td>EV incentives, lithium supply, trade restrictions</td></tr>
+</table></div>
+<h3>2. Stock performance by presidential administration</h3>
+<p>Approximate cumulative share-price returns, compounded from annual returns.</p>
+<div class="table-wrap"><table>
+<tr><th>Stock</th><th>Bush (R) 2001–08</th><th>Obama (D) 2009–16</th><th>Trump I (R) 2017–20</th><th>Biden (D) 2021–24</th><th>Trump II (R) 2025–26*</th></tr>
+<tr><td>FCX</td><td>'+185.5%</td><td>'+7.9%</td><td>'+97.3%</td><td>'+46.3%</td><td>'+62.2%</td></tr>
+<tr><td>NEM</td><td>'+138.5%</td><td>'-16.3%</td><td>'+75.8%</td><td>'-37.9%</td><td>'+217.3%</td></tr>
+<tr><td>LIN</td><td>'+167.5%</td><td>'+97.4%</td><td>'+124.9%</td><td>'+58.9%</td><td>'+22.2%</td></tr>
+<tr><td>NUE</td><td>'+365.6%</td><td>'+28.8%</td><td>'-10.6%</td><td>'+119.4%</td><td>'+129.6%</td></tr>
+<tr><td>ALB</td><td>'+80.2%</td><td>'+286.0%</td><td>'+71.4%</td><td>'-41.6%</td><td>'+5.2%</td></tr>
+</table></div>
+<p class="source-note">Sources: annual historical share-price returns from Slickcharts for Freeport-McMoRan</p>
+<p>slickcharts.com</p>
+<p>, Newmont</p>
+<p>slickcharts.com</p>
+<p>, Linde</p>
+<p>slickcharts.com</p>
+<p>, Nucor</p>
+<p>slickcharts.com</p>
+<p>, and Albemarle</p>
+<p>slickcharts.com</p>
+<p>.</p>
+<h4>Important data notes</h4>
+<ul><li>Trump II includes full-year 2025 and 2026 year-to-date. The available cutoffs differ: November 3 for FCX and LIN, November 4 for NEM and NUE, and November 2 for ALB.</li><li>Linde's historical series needs special care: Linde plc began trading on the NYSE under LIN on October 31, 2018. The predecessor history is based on Praxair, which was the accounting acquirer in the combination. It is therefore not a pure history of today's combined Linde plc.</li></ul>
+<p>Linde+1</p>
+<ul><li>Annual returns use the previous year-end closing price and the current year-end or latest available closing price. Dividends and inflation are excluded.</li></ul>
+<p>slickcharts.com+4</p>
+<h3>3. Which party's periods performed better?</h3>
+<p>The following compares the average CAGR of the available Democratic administrations with the average CAGR of Republican administrations. Trump II is included using its partial-period annualized CAGR.</p>
+<div class="table-wrap"><table>
+<tr><th>Stock</th><th>Democratic average CAGR</th><th>Republican average CAGR</th><th>Better-performing group</th></tr>
+<tr><td>FCX</td><td>5.5%</td><td>20.9%</td><td>Republicans</td></tr>
+<tr><td>NEM</td><td>'-6.7%</td><td>38.0%</td><td>Republicans</td></tr>
+<tr><td>LIN</td><td>10.6%</td><td>15.7%</td><td>Republicans</td></tr>
+<tr><td>NUE</td><td>12.5%</td><td>25.2%</td><td>Republicans</td></tr>
+<tr><td>ALB</td><td>2.9%</td><td>8.3%</td><td>Republicans</td></tr>
+</table></div>
+<p>The Republican averages include Bush, Trump I and the partial Trump II period. The unusually strong Newmont result is heavily influenced by its 2025–26 share-price gains.</p>
+<h3>4. What does this tell us?</h3>
+<p>Stocks with stronger average CAGR during Republican administrations:</p>
+<ul><li>FCX: Stronger Republican-period average, supported by gains during Trump's first term and the current partial period.</li><li>NEM: Significantly higher Republican-period average, primarily due to its exceptional 2025–26 performance.</li><li>LIN: Higher Republican-period average, although its performance was positive under both parties.</li><li>NUE: Higher Republican-period average, with strong gains during the Bush and current Trump periods.</li><li>ALB: Higher Republican-period average, despite its significant gains during Obama's administration.</li></ul>
+<h4>Overall interpretation</h4>
+<ul><li>Republican administrations had the higher calculated average CAGR for all 5 stocks.</li><li>Newmont and Nucor had particularly strong Republican-period averages.</li><li>Albemarle performed exceptionally well during Obama's administration but experienced substantial weakness during Biden's.</li><li>Linde showed comparatively consistent positive returns across all five periods.</li></ul>
+<h4>Important factors to consider</h4>
+<ul><li>Copper and lithium prices.</li><li>Gold prices and global demand for safe-haven assets.</li><li>Steel tariffs and domestic manufacturing.</li><li>Mining permits and environmental regulations.</li><li>EV adoption and battery demand.</li><li>Global industrial production and infrastructure investment.</li></ul>
+<p>These historical results do not establish that Republican policies caused the higher returns. Commodity cycles, global supply and demand, interest rates, China-related demand and company-specific developments can have a major impact.</p>
+<p>Methodology: Calendar-year returns approximate presidential administrations rather than exact inauguration-to-inauguration dates. Each administration's CAGR is calculated separately, and the Democratic and Republican averages are simple averages of the respective available administration CAGRs. Trump II is annualized using the available 2025–26 period, so its result is provisional. In particular, Newmont's current-period annualized CAGR should not be treated as a sustainable long-term growth rate.</p></div><a class="back-top" href="#top">Back to top ↑</a></section>
+<section class="sector-section" id="sector-10"><div class="section-kicker">SECTOR 10</div><h2>Utilities</h2><div class="section-content"><p>Stocks covered: NextEra Energy (NEE), Constellation Energy (CEG), Vistra (VST), Duke Energy (DUK), and Southern Company (SO).</p>
+<p>Utilities are generally influenced by electricity demand, interest rates, energy regulation, fuel costs and infrastructure investment. This group also includes companies with significant exposure to renewable energy, nuclear power and data-centre electricity demand.</p>
+<p>The comparison follows the same format as the previous sectors: cumulative share-price returns compounded from calendar-year returns, excluding dividends and inflation.</p>
+<h3>1. Business and policy factors</h3>
+<div class="table-wrap"><table>
+<tr><th>Benchmark stock &amp; ticker</th><th>🟢 Performance under Democrats – potential drivers</th><th>🔴 Performance under Republicans – potential drivers</th><th>Primary policy catalyst</th></tr>
+<tr><td>NextEra Energy (NYSE: NEE)</td><td>Renewable energy investment and tax-credit support</td><td>Renewable subsidy uncertainty; rising electricity demand</td><td>Renewable incentives, grid investment</td></tr>
+<tr><td>Constellation Energy (NASDAQ: CEG)</td><td>Nuclear energy and clean-electricity investment</td><td>Nuclear power and energy security support</td><td>Nuclear regulation, electricity demand</td></tr>
+<tr><td>Vistra (NYSE: VST)</td><td>Electricity demand from data centres and grid investment</td><td>Natural gas and nuclear generation demand</td><td>Energy reliability, electricity regulation</td></tr>
+<tr><td>Duke Energy (NYSE: DUK)</td><td>Grid modernisation and renewable investment</td><td>Electricity reliability and infrastructure investment</td><td>Utility regulation, energy mix</td></tr>
+<tr><td>Southern Company (NYSE: SO)</td><td>Grid investment and clean-energy transition</td><td>Natural gas, nuclear and electricity reliability</td><td>Energy regulation, nuclear investment</td></tr>
+</table></div>
+<h3>2. Stock performance by presidential administration</h3>
+<p>Approximate cumulative share-price returns, compounded from calendar-year returns. Figures rounded to one decimal place.</p>
+<div class="table-wrap"><table>
+<tr><th>Stock</th><th>Bush (R) 2001–08</th><th>Obama (D) 2009–16</th><th>Trump I (R) 2017–20</th><th>Biden (D) 2021–24</th><th>Trump II (R) 2025–26*</th></tr>
+<tr><td>NEE</td><td>'+40.3%</td><td>'+137.4%</td><td>'+158.4%</td><td>'-7.1%</td><td>'+23.4%</td></tr>
+<tr><td>CEG</td><td>N/A</td><td>N/A</td><td>N/A</td><td>'+432.7%*</td><td>'+15.0%</td></tr>
+<tr><td>VST</td><td>N/A</td><td>N/A</td><td>'+26.9%*</td><td>'+601.3%</td><td>'+1.2%</td></tr>
+<tr><td>DUK</td><td>'-39.4%</td><td>'+72.4%</td><td>'+17.9%</td><td>'+17.7%</td><td>'+17.4%</td></tr>
+<tr><td>SO</td><td>'+82.1%</td><td>'+32.9%</td><td>'+24.9%</td><td>'+34.0%</td><td>'+13.1%</td></tr>
+</table></div>
+<p class="source-note">Sources: annual historical share-price returns from Slickcharts for NextEra Energy</p>
+<p>slickcharts.com</p>
+<p>, Constellation Energy</p>
+<p>slickcharts.com</p>
+<p>, Vistra</p>
+<p>slickcharts.com</p>
+<p>, Duke Energy</p>
+<p>slickcharts.com</p>
+<p>, and Southern Company</p>
+<p>slickcharts.com</p>
+<p>.</p>
+<h4>Important data notes</h4>
+<ul><li>Constellation Energy began trading as a separate publicly listed company in 2022. Its Biden-period return uses 2022–2024 only; its earlier periods are N/A.</li><li>Vistra's available historical series begins in 2017. Its Trump I figure covers 2017–2020; it has no full Bush or Obama period.</li><li>Trump II includes full-year 2025 and 2026 year-to-date, with data through November 2 for CEG, November 3 for DUK and VST, and November 4 for NEE and SO.</li><li>The annual-return data use the previous year-end closing price and the current year-end or latest available closing price. Dividends and inflation are excluded.</li></ul>
+<p>slickcharts.com+4</p>
+<h3>3. Which party's periods performed better?</h3>
+<p>The following compares the average CAGR of the available Democratic administrations with the average CAGR of Republican administrations. Trump II is included using its partial-period annualized CAGR.</p>
+<div class="table-wrap"><table>
+<tr><th>Stock</th><th>Democratic average CAGR</th><th>Republican average CAGR</th><th>Better-performing group</th></tr>
+<tr><td>NEE</td><td>4.8%</td><td>14.4%</td><td>Republicans</td></tr>
+<tr><td>CEG</td><td>74.6%</td><td>7.9%</td><td>Democrats</td></tr>
+<tr><td>VST</td><td>62.7%</td><td>3.4%</td><td>Democrats</td></tr>
+<tr><td>DUK</td><td>5.6%</td><td>2.4%</td><td>Democrats</td></tr>
+<tr><td>SO</td><td>5.6%</td><td>6.8%</td><td>Republicans</td></tr>
+</table></div>
+<p>CEG's Democratic average uses only its available 2022–2024 Biden-period history. VST's Democratic average uses its 2021–2024 Biden period, while its Republican average uses Trump I and Trump II. Neither has a complete history across all five administrations.</p>
+<h3>4. What does this tell us?</h3>
+<p>Stocks with stronger average CAGR during Democratic administrations:</p>
+<ul><li>CEG: Exceptional gains during Biden's administration, supported by strong investor interest in nuclear power and electricity demand.</li><li>VST: Very strong performance during Biden's period, particularly in 2023 and 2024.</li><li>DUK: Slightly stronger Democratic-period average, although its returns were relatively modest.</li></ul>
+<p>Stocks with stronger average CAGR during Republican administrations:</p>
+<ul><li>NEE: Higher Republican-period average, supported by strong gains during Trump's first term and the current partial period.</li><li>SO: Slightly higher Republican-period average, with comparatively steady performance across administrations.</li></ul>
+<h4>Overall interpretation</h4>
+<ul><li>Democratic administrations had the higher average CAGR for 3 out of 5 stocks.</li><li>CEG and VST were the strongest performers during Biden's period.</li><li>NEE performed better on average during Republican periods.</li><li>Traditional regulated utilities such as DUK and SO showed more moderate returns than electricity-generation companies exposed to stronger market-demand cycles.</li></ul>
+<h4>Important factors to consider</h4>
+<ul><li>Data-centre and AI-related electricity demand.</li><li>Nuclear power investment and regulatory approvals.</li><li>Renewable-energy tax credits and incentives.</li><li>Natural gas prices and generation capacity.</li><li>Electricity-grid upgrades and transmission infrastructure.</li><li>Interest rates, borrowing costs and utility regulation.</li></ul>
+<p>These historical results do not establish that either political party caused the returns. Electricity demand, company-specific generation capacity, interest rates and changes in wholesale electricity prices can materially affect utility stocks.</p>
+<p>Methodology: Calendar-year returns approximate presidential administrations rather than exact inauguration-to-inauguration dates. Each administration's CAGR is calculated separately, then the Democratic and Republican averages are calculated from available periods. Trump II is annualized using the available 2025–26 period and is provisional. For CEG and VST, unavailable administration periods are excluded rather than treated as zero returns.</p></div><a class="back-top" href="#top">Back to top ↑</a></section>
+<section class="sector-section" id="sector-11"><div class="section-kicker">SECTOR 11</div><h2>Real Estate</h2><div class="section-content"><p>Stocks covered: Prologis (PLD), American Tower (AMT), Equinix (EQIX), Realty Income (O), and Welltower (WELL).</p>
+<p>The Real Estate sector includes logistics warehouses, telecommunications towers, data centres, rental properties and healthcare real estate. These businesses are particularly sensitive to interest rates, borrowing costs, property valuations, rental demand and long-term infrastructure investment.</p>
+<p>The comparison follows the same methodology as the previous sectors: cumulative share-price returns compounded from calendar-year returns, excluding dividends and inflation.</p>
+<h3>1. Business and policy factors</h3>
+<div class="table-wrap"><table>
+<tr><th>Benchmark stock &amp; ticker</th><th>🟢 Performance under Democrats – potential drivers</th><th>🔴 Performance under Republicans – potential drivers</th><th>Primary policy catalyst</th></tr>
+<tr><td>Prologis (NYSE: PLD)</td><td>E-commerce, logistics and infrastructure demand</td><td>Domestic manufacturing reshoring and logistics demand</td><td>Trade policy, warehouse demand, interest rates</td></tr>
+<tr><td>American Tower (NYSE: AMT)</td><td>5G infrastructure and telecommunications expansion</td><td>Telecommunications investment and infrastructure demand</td><td>Spectrum allocation, telecom regulation</td></tr>
+<tr><td>Equinix (NASDAQ: EQIX)</td><td>Cloud, AI and digital infrastructure expansion</td><td>Data-centre demand and domestic technology investment</td><td>Data-centre investment, electricity supply</td></tr>
+<tr><td>Realty Income (NYSE: O)</td><td>Stable rental income and defensive property demand</td><td>Stable rental income; potential changes in tax and business regulation</td><td>Interest rates, REIT taxation</td></tr>
+<tr><td>Welltower (NYSE: WELL)</td><td>Healthcare real estate and ageing-population demand</td><td>Healthcare property demand and private investment</td><td>Healthcare spending, senior housing regulation</td></tr>
+</table></div>
+<h3>3. Which party's periods performed better?</h3>
+<p>The following compares the average CAGR of the available Democratic administrations with the average CAGR of Republican administrations. Trump II is included using its partial-period annualized CAGR.</p>
+<div class="table-wrap"><table>
+<tr><th>Stock</th><th>Democratic average CAGR</th><th>Republican average CAGR</th><th>Better-performing group</th></tr>
+<tr><td>PLD</td><td>6.1%</td><td>9.2%</td><td>Republicans</td></tr>
+<tr><td>AMT</td><td>6.2%</td><td>6.2%</td><td>Republicans</td></tr>
+<tr><td>EQIX</td><td>17.0%</td><td>3.8%</td><td>Democrats</td></tr>
+<tr><td>O</td><td>4.5%</td><td>5.3%</td><td>Republicans</td></tr>
+<tr><td>WELL</td><td>12.1%</td><td>18.7%</td><td>Republicans</td></tr>
+</table></div>
+<p>AMT's Republican-period advantage is extremely small before rounding: approximately 6.24% versus 6.23% for Democrats. Treat this as effectively a tie.</p>
+<h3>4. What does this tell us?</h3>
+<p>Stocks with stronger average CAGR during Democratic administrations:</p>
+<ul><li>EQIX: Strong Democratic-period average, driven by exceptional gains during Obama's administration and continued growth during Biden's.</li></ul>
+<p>Stocks with stronger average CAGR during Republican administrations:</p>
+<ul><li>PLD: Higher Republican-period average, supported by gains during Trump's first term and the current partial period.</li><li>AMT: Almost identical performance between the two groups, with a negligible Republican-period advantage.</li><li>O: Slightly higher Republican-period average, although its returns were relatively modest.</li><li>WELL: Higher Republican-period average, significantly influenced by its strong 2025–26 performance.</li></ul>
+<h4>Overall interpretation</h4>
+<ul><li>Republican administrations had the higher calculated average CAGR for 4 out of 5 stocks, although AMT is effectively tied.</li><li>Equinix was the strongest Democratic-period performer, benefiting from long-term growth in cloud and digital infrastructure.</li><li>Welltower had a particularly strong current-period performance.</li><li>Realty Income's relatively modest share-price returns highlight why dividend income is important when evaluating REIT investments.</li></ul>
+<h4>Important factors to consider</h4>
+<ul><li>Federal Reserve interest-rate decisions and borrowing costs.</li><li>Commercial property valuations and rental demand.</li><li>Data-centre expansion and AI infrastructure investment.</li><li>5G deployment and telecommunications spending.</li><li>Healthcare real estate and senior-housing demand.</li><li>REIT taxation and dividend distributions.</li></ul>
+<p>These historical comparisons do not establish that either political party caused the returns. Interest rates and property-market conditions can have a substantial influence on real estate valuations.</p>
+<h4>Methodology and final notes</h4>
+<ul><li>Calendar-year returns approximate presidential administrations rather than exact inauguration-to-inauguration dates.</li><li>Cumulative returns are calculated by compounding each calendar year's price return.</li><li>CAGR is calculated separately for each administration.</li><li>Democratic average CAGR = average of Obama and Biden CAGRs.</li><li>Republican average CAGR = average of Bush, Trump I and Trump II CAGRs.</li><li>Trump II includes 2025 and 2026 year-to-date through November 3–4, 2026, depending on the stock's source data. Its CAGR is annualized and provisional.</li><li>Dividends and inflation are excluded. This is especially important for REITs, where dividends form a significant portion of investor returns.</li></ul>
+<p class="source-note">Sources for the five stocks:</p>
+<p>slickcharts.com+4</p>
+<p>You've now completed all 11 sectors and 55 stock entries. One important next step would be to consolidate the sector results into a master comparison showing which political group had the higher average CAGR across all 55 stock entries, while keeping the sector-level results visible.</p></div><a class="back-top" href="#top">Back to top ↑</a></section>
+<section class="sector-section" id="sector-12"><div class="section-kicker">SECTOR 12</div><h2>Overall comparison: Which sectors are most politically sensitive?</h2><div class="section-content"><p>This section brings together all 11 sectors and compares how strongly their businesses may be affected by policy differences between Democratic and Republican administrations.</p>
+<p>The key distinction is between policy exposure and stock-market performance: a sector can be highly exposed to political decisions without consistently performing better under one party.</p>
+<h3>1. Sector-by-sector policy exposure</h3>
+<div class="table-wrap"><table>
+<tr><th>Sector</th><th>Democratic policy exposure</th><th>Republican policy exposure</th><th>Sensitivity</th></tr>
+<tr><td>Technology</td><td>AI, chip investment, antitrust</td><td>Deregulation, trade restrictions, domestic chips</td><td>Medium</td></tr>
+<tr><td>Communication Services</td><td>Privacy and antitrust</td><td>Deregulation and media policy</td><td>Medium</td></tr>
+<tr><td>Consumer Discretionary</td><td>Consumer spending and EV incentives</td><td>Tax policy and tariffs</td><td>Medium</td></tr>
+<tr><td>Consumer Staples</td><td>Inflation and labour costs</td><td>Import tariffs and trade</td><td>Low–Medium</td></tr>
+<tr><td>Healthcare</td><td>Medicare, drug pricing and ACA</td><td>Healthcare deregulation and drug pricing</td><td>High</td></tr>
+<tr><td>Financials</td><td>Banking oversight and consumer protection</td><td>Banking deregulation</td><td>High</td></tr>
+<tr><td>Energy</td><td>Climate incentives and emissions</td><td>Oil, gas and drilling support</td><td>Very High</td></tr>
+<tr><td>Industrials</td><td>Infrastructure and electrification</td><td>Manufacturing and defence</td><td>High</td></tr>
+<tr><td>Materials</td><td>Critical minerals and electrification</td><td>Mining and tariffs</td><td>High</td></tr>
+<tr><td>Utilities</td><td>Renewable incentives</td><td>Nuclear, gas and deregulation</td><td>High</td></tr>
+<tr><td>Real Estate</td><td>Housing and property regulation</td><td>Tax policy and business regulation</td><td>Medium</td></tr>
+</table></div>
+<h3>2. Sensitivity ranking</h3>
+<p>Based on the classifications in the comparison:</p>
+<p>Very High</p>
+<p><span class="tag">Highest sensitivity</span></p>
+<p>Energy</p>
+<p>Climate incentives, drilling policy, emissions rules and energy production can materially change the economics of energy companies.</p>
+<p>High</p>
+<ul><li>Healthcare</li><li>Financials</li><li>Industrials</li><li>Materials</li><li>Utilities</li></ul>
+<p>These sectors have substantial exposure to government spending, regulation, taxation, infrastructure and energy policy.</p>
+<p>Medium</p>
+<ul><li>Technology</li><li>Communication Services</li><li>Consumer Discretionary</li><li>Real Estate</li></ul>
+<p>These sectors are influenced by policy, but corporate earnings, competition, consumer demand, interest rates and technology trends also play major roles.</p>
+<p>Low–Medium</p>
+<ul><li>Consumer Staples</li></ul>
+<p>Essential consumer demand provides some resilience, although tariffs, labour costs and inflation can affect margins.</p>
+<h3>3. What makes these sectors politically sensitive?</h3>
+<p><a href="https://images.openai.com/static-rsc-4/v4UcRzfQqhTeQiwDip0ChUPsxysIvc2_viQH6LxnRB8QPv10P0c4GegOYJJdMc6PtZke4h9EuwkOCdjYZ41RFKUdsASjM07fl_qJGHPQLbtPMVq-MQeuVuGP4fMndiObsa7QRwZr14pk9T2Oreg2wNoHQ62P7FN5jUQXE2cAH4k?purpose=inline" target="_blank" rel="noopener noreferrer">Battalion Oil Aktie: Historischer Durchsatz!</a></p>
+<p>1\. Energy — Very High</p>
+<p>Government decisions can influence drilling permits, federal land access, renewable incentives, emissions requirements and energy infrastructure.</p>
+<p><a href="https://images.openai.com/static-rsc-4/UvZrS2GxiLLFt9NlD6xjLslb3eYU7ssZlT_CuQ--MGJ0WEWbvOq_ohDyy9Ul31dkvMVzpn2PNbu6wxP_R-pNZfCb_hTnsXdlvz6wPLUMsgQGnA8whW0Aj64dBxv7tHrPMt7fes0nGy8g9bCA2IGoSJDC_lEDxl7mTq7-NUUjGmw?purpose=inline" target="_blank" rel="noopener noreferrer">UT Southwestern among top 25 in nation in eight specialties ranked by U.S. News ‘Best Hospitals’: Newsroom - UT Southwestern, Dallas, Texas</a></p>
+<p>2\. Healthcare — High</p>
+<p>Medicare, Medicaid, Affordable Care Act policy, drug pricing and insurance regulation can directly affect healthcare companies.</p>
+<p><a href="https://images.openai.com/static-rsc-4/uAC5kksbbcf5ParFv6JuzY4lEqRVLog9Ygc_cUYgBZibrmHacuGuMOypA15T88ioNtkenNgik-VKyG6pZcXe8urKTdrP3TdmcqrvGLu_3eLxUaF1QUCFZa5PyMmGSDJcb574fDTyuxBydOW1LLNkWEGDWO07thoP_HdyiwT3Yio?purpose=inline" target="_blank" rel="noopener noreferrer">Downtown Manhattan Financial District Scavenger Hunts | Wildgoose USA</a></p>
+<p>3\. Financials — High</p>
+<p>Banking capital requirements, regulatory oversight, consumer protection and financial-market rules influence banks and financial institutions.</p>
+<p><a href="https://images.openai.com/static-rsc-4/lMk5i5xHv895fh5dnhlbVUfBrSiw5zecjLFWkAScX37p9edYCLSO5KBFWVHisveRcSRMIi0kkXvfTClzYd0oxp32yays6nxCEOFybY7Lbhtg97Ax77oao9NRV-wxUyemqKa-pEChEEofo_3tYzyNALZxP7lgLmXRFeJKE24a9BI?purpose=inline" target="_blank" rel="noopener noreferrer">ISM Manufacturing PMI for February 52.4 versus 51.8 estimate | investingLive</a></p>
+<p>4\. Industrials — High</p>
+<p>Infrastructure spending, defence budgets, tariffs, domestic manufacturing incentives and electrification affect industrial companies.</p>
+<p><a href="https://images.openai.com/static-rsc-4/Bmkk2P6Bl3XomFY-0XAWM-oIfzJ8xCR6lwzRC_JuvPwKBd5J0Fw9GaWyQvc2EgRX3xlihprOILlRXTFjgjB-6QMB8q2SKE1Bbc65ANZayPsDVqAazOrX7HSSsbVI-voudK3Jvg576NP4FWs6YgMG6uKQbx0o6JHXpb-1l0qpUMg?purpose=inline" target="_blank" rel="noopener noreferrer">Why the U.S. is struggling to modernize its power grid</a></p>
+<p>5\. Utilities — High</p>
+<p>Renewable-energy incentives, nuclear policy, electricity regulation and grid investment can influence utility profitability and capital spending.</p>
+<h3>4. Important distinction: Political sensitivity versus market sensitivity</h3>
+<p>Political sensitivity is not the same as stock-price sensitivity. A sector may react strongly to government policy but still be driven more by interest rates, commodity prices or economic conditions.</p>
+<p>For example:</p>
+<ul><li>Real Estate: Particularly sensitive to interest rates and borrowing costs, even though its political sensitivity is classified as medium.&amp;#x20;</li></ul>
+<p class="source-link"><a href="https://www.google.com/s2/favicons?domain=https://www.exent.ai\&amp;sz=32" target="_blank" rel="noopener noreferrer">Source image / reference</a></p>
+<p>Exent+1</p>
+<ul><li>Energy: Exposed to political decisions, but global oil and gas prices can be equally or more important.</li><li>Technology: Government chip policy and AI regulation matter, but earnings growth and AI investment can dominate performance.&amp;#x20;</li></ul>
+<p class="source-link"><a href="https://www.google.com/s2/favicons?domain=https://research-center.amundi.com\&amp;sz=32" target="_blank" rel="noopener noreferrer">Source image / reference</a></p>
+<p>Amundi Research Center+1</p>
+<ul><li>Consumer Staples: Usually more defensive, but tariffs and input costs can still affect profitability.</li></ul>
+<h3>5. Final conclusion</h3>
+<p>The sectors to watch most closely for changes in US political leadership and policy direction are:</p>
+<h3>1. Energy — drilling, renewable incentives and emissions.</h3>
+<h3>2. Healthcare — Medicare, drug pricing and insurance regulation.</h3>
+<h3>3. Financials — banking regulations and oversight.</h3>
+<h3>4. Industrials — defence, infrastructure and manufacturing.</h3>
+<h3>5. Materials — mining, tariffs and critical-mineral policy.</h3>
+<h3>6. Utilities — electricity regulation, nuclear and renewable investment.</h3>
+<p>These are useful starting points for monitoring policy-related investment risks, not automatic buy or sell signals.</p>
+<p>Research context: State Street's analysis shows that sectors also have different sensitivities to interest rates, inflation expectations, the US dollar and oil prices. A 2026 RBC analyst survey likewise illustrates that expected sector effects can differ substantially depending on which party controls Congress.&amp;#x20;</p>
+<p class="source-link"><a href="https://www.google.com/s2/favicons?domain=https://www.ssga.com\&amp;sz=32" target="_blank" rel="noopener noreferrer">Source image / reference</a></p>
+<p>ssga.com+1</p>
+<p>Final takeaway: Political leadership can change the investment environment, but it does not reliably predict which sector or stock will deliver the highest return. Company fundamentals, valuations, interest rates and broader economic conditions must be considered alongside political exposure.</p></div><a class="back-top" href="#top">Back to top ↑</a></section>
+<div class="footer">Prepared from the supplied report content. Historical comparisons are descriptive and do not establish political causation.</div></main></div>
+<script>
+const links=[...document.querySelectorAll('.nav-link')];
+const sections=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const observer=new IntersectionObserver(entries=>{{
+ entries.forEach(entry=>{{
+  if(entry.isIntersecting) links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+entry.target.id));
+ }});
+}},{{rootMargin:'-15% 0px -70% 0px'}});
+sections.forEach(section=>observer.observe(section));
+</script></body></html>
